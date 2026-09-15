@@ -18,13 +18,24 @@
 
   <nav class="topnav" id="topnav">
     <a href="#top" class="nav-word">Ha-yeon Jeon</a>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="#work" class="nav-link" data-section="work">Work</a></li>
-      <li><a href="#awards" class="nav-link" data-section="awards">Awards</a></li>
-      <li><a href="#about" class="nav-link" data-section="about">About</a></li>
-      <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
-    </ul>
-    <button class="nav-toggle" id="nav-toggle" aria-label="Menu"><span></span><span></span></button>
+    <div class="nav-right">
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#work" class="nav-link" data-section="work">Work</a></li>
+        <li><a href="#awards" class="nav-link" data-section="awards">Awards</a></li>
+        <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+        <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
+      </ul>
+      <div class="share-wrap" id="share-wrap">
+        <button class="share-btn" id="share-btn" aria-label="공유하기" aria-haspopup="true" aria-expanded="false">
+          <i class="fa-solid fa-arrow-up-from-bracket"></i>
+        </button>
+        <div class="share-menu" id="share-menu" role="menu">
+          <button role="menuitem" id="share-copy-link"><i class="fa-solid fa-link"></i> 링크 복사</button>
+          <button role="menuitem" id="share-pdf"><i class="fa-regular fa-file-pdf"></i> PDF로 공유</button>
+        </div>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu"><span></span><span></span></button>
+    </div>
   </nav>
 
   <header class="hero" id="top">
@@ -316,6 +327,7 @@
 
   <div class="wtoast" id="minimal-toast"></div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

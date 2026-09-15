@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMediaModal();
   initCertModal();
   initActions();
+  initShare();
 });
 
 /* ==========================================================================
@@ -195,4 +196,411 @@ function showToast(msg) {
   toast.textContent = msg;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2600);
+}
+
+/* ==========================================================================
+   7. Share Menu — copy link / structured PDF export
+   ========================================================================== */
+function initShare() {
+  const wrap = document.getElementById('share-wrap');
+  const btn = document.getElementById('share-btn');
+  const menu = document.getElementById('share-menu');
+  const copyBtn = document.getElementById('share-copy-link');
+  const pdfBtn = document.getElementById('share-pdf');
+  if (!wrap || !btn || !menu) return;
+
+  function openMenu() {
+    menu.classList.add('open');
+    btn.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+  function closeMenu() {
+    menu.classList.remove('open');
+    btn.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    menu.classList.contains('open') ? closeMenu() : openMenu();
+  });
+
+  document.addEventListener('click', e => {
+    if (!wrap.contains(e.target)) closeMenu();
+  });
+  window.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeMenu();
+  });
+
+  copyBtn?.addEventListener('click', () => {
+    closeMenu();
+    const url = window.location.href;
+    navigator.clipboard?.writeText(url).then(() => {
+      showToast('링크가 복사되었습니다.');
+    }).catch(() => {
+      showToast('링크가 복사되었습니다.');
+    });
+  });
+
+  pdfBtn?.addEventListener('click', async () => {
+    closeMenu();
+    if (pdfBtn.disabled) return;
+    const originalHTML = pdfBtn.innerHTML;
+    pdfBtn.disabled = true;
+    pdfBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 생성 중…';
+    try {
+      await buildPortfolioPdf();
+      showToast('PDF가 다운로드되었습니다.');
+    } catch (err) {
+      console.error('PDF export failed', err);
+      showToast('PDF 생성에 실패했습니다.');
+    } finally {
+      pdfBtn.disabled = false;
+      pdfBtn.innerHTML = originalHTML;
+    }
+  });
+}
+
+/* --- collect the page's own content into plain structured data --- */
+function extractPortfolioData() {
+  const text = el => (el?.textContent || '').replace(/\s+/g, ' ').trim();
+  const metaText = el => {
+    if (!el) return '';
+    const clone = el.cloneNode(true);
+    clone.querySelectorAll('br').forEach(br => br.replaceWith(' — '));
+    return clone.textContent.replace(/\s+/g, ' ').trim();
+  };
+  const joinSpans = (selector, sep) => [...document.querySelectorAll(selector)].map(s => text(s)).join(sep);
+
+  const work = [...document.querySelectorAll('.work-row')].map(row => {
+    const tags = [...row.querySelectorAll('.work-tags span')].map(s => text(s));
+    const meta = metaText(row.querySelector('.work-meta'));
+    return {
+      idx: text(row.querySelector('.work-idx')),
+      title: text(row.querySelector('.work-caption h3')),
+      desc: text(row.querySelector('.work-caption-left > div > p')),
+      meta,
+      tags
+    };
+  });
+
+  const awards = [...document.querySelectorAll('.award-row')].map(row => ({
+    year: text(row.querySelector('.award-year')),
+    title: text(row.querySelector('.award-title')),
+    org: text(row.querySelector('.award-org')),
+    desc: text(row.querySelector('.award-desc')),
+    badge: text(row.querySelector('.award-badge'))
+  }));
+
+  const statLine = joinSpans('.stat-line > span:not(.sep)', '   ·   ');
+
+  const facts = [...document.querySelectorAll('.fact-line .item')].map(item => {
+    const k = text(item.querySelector('.k'));
+    const full = text(item);
+    return { k, v: full.replace(k, '').trim() };
+  });
+
+  const edu = [...document.querySelectorAll('.edu-row')].map(row => ({
+    name: text(row.querySelector('.name')),
+    sub: text(row.querySelector('.sub')),
+    period: text(row.querySelector('.period'))
+  }));
+
+  return {
+    kicker: text(document.querySelector('.hero .kicker')),
+    heroDesc: text(document.querySelector('.hero-desc')),
+    work,
+    statLine,
+    awards,
+    quote: text(document.querySelector('.about-quote')),
+    aboutBody: [...document.querySelectorAll('.about-body p')].map(p => text(p)),
+    facts,
+    skills: joinSpans('.skills-line span', '  ·  '),
+    edu,
+    contactLine: joinSpans('.contact-info-line span', '   —   ')
+  };
+}
+
+/* --- fetch a Hangul-capable TTF at click-time and register it with jsPDF
+   (jsPDF's built-in fonts are Latin-only, so Korean text needs an embedded font) --- */
+function arrayBufferToBase64(buffer) {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+  }
+  return btoa(binary);
+}
+
+async function loadKoreanFont(doc) {
+  try {
+    const base = 'https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/public/static/alternative/';
+    const [regularBuf, boldBuf] = await Promise.all([
+      fetch(base + 'Pretendard-Regular.ttf').then(r => { if (!r.ok) throw new Error('font fetch failed'); return r.arrayBuffer(); }),
+      fetch(base + 'Pretendard-Bold.ttf').then(r => { if (!r.ok) throw new Error('font fetch failed'); return r.arrayBuffer(); })
+    ]);
+    doc.addFileToVFS('Pretendard-Regular.ttf', arrayBufferToBase64(regularBuf));
+    doc.addFont('Pretendard-Regular.ttf', 'Pretendard', 'normal');
+    doc.addFileToVFS('Pretendard-Bold.ttf', arrayBufferToBase64(boldBuf));
+    doc.addFont('Pretendard-Bold.ttf', 'Pretendard', 'bold');
+    return true;
+  } catch (err) {
+    console.warn('Korean font load failed, Korean text will fall back to Latin-only font', err);
+    return false;
+  }
+}
+
+/* --- render the collected data into a clean, text-based PDF (not a page screenshot) --- */
+async function buildPortfolioPdf() {
+  const { jsPDF } = window.jspdf || {};
+  if (!jsPDF) throw new Error('jsPDF not loaded');
+
+  const data = extractPortfolioData();
+  const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+
+  const koreanReady = await loadKoreanFont(doc);
+  const BODY_FONT = koreanReady ? 'Pretendard' : 'helvetica';
+
+  const INK = [26, 26, 23];
+  const SOFT = [99, 98, 90];
+  const FAINT = [150, 148, 138];
+  const SAGE = [74, 107, 82];
+  const LINE = [230, 228, 219];
+
+  const pageW = doc.internal.pageSize.getWidth();
+  const pageH = doc.internal.pageSize.getHeight();
+  const marginX = 54;
+  const marginTop = 60;
+  const marginBottom = 56;
+  const contentW = pageW - marginX * 2;
+  let y = marginTop;
+
+  function ensureSpace(h) {
+    if (y + h > pageH - marginBottom) {
+      doc.addPage();
+      y = marginTop;
+    }
+  }
+
+  function setColor(rgb) { doc.setTextColor(rgb[0], rgb[1], rgb[2]); }
+
+  function kicker(str) {
+    ensureSpace(16);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8.5);
+    setColor(SAGE);
+    doc.text(str.toUpperCase(), marginX, y);
+    y += 20;
+  }
+
+  function heading(str) {
+    ensureSpace(28);
+    doc.setFont('times', 'italic');
+    doc.setFontSize(19);
+    setColor(INK);
+    doc.text(str, marginX, y);
+    y += 10;
+    doc.setDrawColor(LINE[0], LINE[1], LINE[2]);
+    doc.setLineWidth(1);
+    doc.line(marginX, y, pageW - marginX, y);
+    y += 24;
+  }
+
+  function paragraph(str, opts = {}) {
+    if (!str) return;
+    const size = opts.size || 10;
+    const font = opts.font || BODY_FONT;
+    // the embedded Korean font only has normal/bold — 'italic' has no glyph set to fall back to
+    const style = opts.style === 'italic' && font === BODY_FONT && koreanReady ? 'normal' : (opts.style || 'normal');
+    const color = opts.color || SOFT;
+    const lineGap = opts.lineGap || size * 1.5;
+    doc.setFont(font, style);
+    doc.setFontSize(size);
+    setColor(color);
+    const lines = doc.splitTextToSize(str, contentW);
+    lines.forEach(line => {
+      ensureSpace(lineGap);
+      doc.text(line, marginX, y);
+      y += lineGap;
+    });
+  }
+
+  function divider(gapBefore = 14, gapAfter = 14) {
+    y += gapBefore;
+    ensureSpace(1 + gapAfter);
+    doc.setDrawColor(LINE[0], LINE[1], LINE[2]);
+    doc.setLineWidth(0.75);
+    doc.line(marginX, y, pageW - marginX, y);
+    y += gapAfter;
+  }
+
+  /* ---- Cover ---- */
+  kicker(data.kicker || 'GREEN SMART CITY · LANDSCAPE ARCHITECTURE');
+  ensureSpace(40);
+  doc.setFont('times', 'italic');
+  doc.setFontSize(30);
+  setColor(INK);
+  doc.text('Ha-yeon Jeon', marginX, y);
+  y += 18;
+  doc.setFont(BODY_FONT, 'normal');
+  doc.setFontSize(10.5);
+  setColor(SOFT);
+  doc.text('전하연 · Portfolio Digest', marginX, y);
+  y += 26;
+  paragraph(data.heroDesc, { size: 10.5, lineGap: 16 });
+  divider(20, 26);
+
+  /* ---- Work ---- */
+  kicker('Selected Work');
+  heading('Projects & Research');
+  data.work.forEach((p, i) => {
+    ensureSpace(24);
+    doc.setFont(BODY_FONT, 'bold');
+    doc.setFontSize(12);
+    setColor(INK);
+    const idxLabel = p.idx ? `${p.idx}  ` : `${String(i + 1).padStart(2, '0')}  `;
+    doc.text(idxLabel + p.title, marginX, y);
+    y += 15;
+    if (p.meta) {
+      doc.setFont(BODY_FONT, 'normal');
+      doc.setFontSize(9);
+      setColor(FAINT);
+      doc.text(p.meta, marginX, y);
+      y += 14;
+    }
+    paragraph(p.desc, { size: 10, lineGap: 14.5 });
+    if (p.tags.length) {
+      ensureSpace(14);
+      doc.setFont(BODY_FONT, 'normal');
+      doc.setFontSize(8.5);
+      setColor(SAGE);
+      doc.text(p.tags.join('   '), marginX, y);
+      y += 14;
+    }
+    if (i < data.work.length - 1) divider(10, 16);
+  });
+  divider(20, 26);
+
+  /* ---- Awards ---- */
+  kicker('Recognition');
+  heading('Awards & Honors');
+  if (data.statLine) {
+    paragraph(data.statLine, { size: 10, style: 'normal', font: BODY_FONT, color: INK, lineGap: 16 });
+    y += 6;
+  }
+  data.awards.forEach((a, i) => {
+    ensureSpace(20);
+    doc.setFont(BODY_FONT, 'bold');
+    doc.setFontSize(10.5);
+    setColor(INK);
+    const yearLabel = a.year ? `${a.year} — ` : '';
+    doc.text(yearLabel + a.title, marginX, y);
+    if (a.badge) {
+      doc.setFont(BODY_FONT, 'bold');
+      doc.setFontSize(8);
+      setColor(SAGE);
+      doc.text(a.badge.toUpperCase(), pageW - marginX - doc.getTextWidth(a.badge.toUpperCase()), y);
+    }
+    y += 14;
+    if (a.org) {
+      doc.setFont(BODY_FONT, 'normal');
+      doc.setFontSize(9.5);
+      setColor(SOFT);
+      doc.text(a.org, marginX, y);
+      y += 13;
+    }
+    paragraph(a.desc, { size: 9.5, lineGap: 13.5, color: FAINT });
+    if (i < data.awards.length - 1) y += 8;
+  });
+  divider(20, 26);
+
+  /* ---- About ---- */
+  kicker('Profile');
+  heading('About');
+  if (data.quote) {
+    paragraph(`"${data.quote.replace(/^"|"$/g, '')}"`, { size: 11.5, style: 'normal', font: BODY_FONT, color: INK, lineGap: 17 });
+    y += 8;
+  }
+  data.aboutBody.forEach(p => { paragraph(p, { size: 10, lineGap: 15 }); y += 6; });
+
+  if (data.facts.length) {
+    y += 4;
+    data.facts.forEach(f => {
+      ensureSpace(14);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      setColor(FAINT);
+      doc.text(f.k.toUpperCase() + '  ', marginX, y);
+      const kW = doc.getTextWidth(f.k.toUpperCase() + '   ');
+      doc.setFont(BODY_FONT, 'normal');
+      doc.setFontSize(10);
+      setColor(INK);
+      doc.text(f.v, marginX + kW, y);
+      y += 15;
+    });
+  }
+  if (data.skills) {
+    y += 4;
+    paragraph(data.skills, { size: 9, color: FAINT, lineGap: 13.5 });
+  }
+  if (data.edu.length) {
+    y += 10;
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9.5);
+    setColor(INK);
+    ensureSpace(14);
+    doc.text('EDUCATION', marginX, y);
+    y += 16;
+    data.edu.forEach(e => {
+      ensureSpace(16);
+      doc.setFont(BODY_FONT, 'bold');
+      doc.setFontSize(9.5);
+      setColor(INK);
+      doc.text(e.name, marginX, y);
+      doc.setFont(BODY_FONT, 'normal');
+      doc.setFontSize(8.5);
+      setColor(FAINT);
+      doc.text(e.period, pageW - marginX - doc.getTextWidth(e.period), y);
+      y += 12;
+      if (e.sub) {
+        doc.setFont(BODY_FONT, 'normal');
+        doc.setFontSize(8.5);
+        setColor(SOFT);
+        doc.text(e.sub, marginX, y);
+        y += 14;
+      } else {
+        y += 4;
+      }
+    });
+  }
+  divider(20, 26);
+
+  /* ---- Contact ---- */
+  kicker('Get in touch');
+  heading('Contact');
+  doc.setFont('times', 'italic');
+  doc.setFontSize(15);
+  setColor(SAGE);
+  ensureSpace(22);
+  doc.text('iris050705@naver.com', marginX, y);
+  y += 20;
+  paragraph(data.contactLine, { size: 9.5, color: SOFT, lineGap: 14 });
+
+  /* ---- Footer on every page ---- */
+  const pageCount = doc.internal.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setDrawColor(LINE[0], LINE[1], LINE[2]);
+    doc.setLineWidth(0.75);
+    doc.line(marginX, pageH - 40, pageW - marginX, pageH - 40);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    setColor(FAINT);
+    doc.text('Ha-yeon Jeon · Green Smart City & Landscape Architecture', marginX, pageH - 26);
+    const pageLabel = `${i} / ${pageCount}`;
+    doc.text(pageLabel, pageW - marginX - doc.getTextWidth(pageLabel), pageH - 26);
+  }
+
+  doc.save('Ha-yeon_Jeon_Portfolio.pdf');
 }
