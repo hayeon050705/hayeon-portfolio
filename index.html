@@ -3,612 +3,380 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="전하연 조경 및 그린스마트시티 포트폴리오. 지속가능한 도시 생태 인프라, 도시숲, 스마트 파크, 친환경 공간 설계.">
-  <title>HA-YEON JEON | Landscape Architecture & Green Smart City</title>
+  <meta name="description" content="전하연 조경 및 그린스마트시티 포트폴리오. 도시숲, 스마트 파크, 친환경 건축, 공간 데이터 분석 연구와 수상 경력.">
+  <title>HA-YEON JEON | Green Smart City Portfolio</title>
 
-  <!-- Typography: Cormorant Garamond (Editorial Serif) & Plus Jakarta Sans & Pretendard -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&family=Pretendard:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- FontAwesome Icons for subtle UI symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- Stylesheet -->
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Layout Container: Left Fixed Navigation + Right Editorial Content -->
-  <div class="layout-wrapper">
-    
-    <!-- LEFT FIXED SIDEBAR -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-inner">
-        
-        <!-- Studio / Identity Header with subtle green leaf accent -->
-        <header class="studio-header">
-          <a href="#cover" class="studio-logo">
-            <div class="studio-brand-row">
-              <span class="leaf-dot"></span>
-              <h1 class="studio-name">HA-YEON JEON</h1>
-            </div>
-            <p class="studio-sub">Landscape Architecture<br>& Green Smart City</p>
-          </a>
-        </header>
+  <!-- ============================= TOP NAV ============================= -->
+  <nav class="topnav" id="topnav">
+    <a href="#top" class="nav-logo"><span class="dot"></span>HAYEON.JEON</a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#work" class="nav-link" data-section="work">Work</a></li>
+      <li><a href="#awards" class="nav-link" data-section="awards">Awards</a></li>
+      <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+      <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Get in touch</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu"><span></span><span></span></button>
+  </nav>
 
-        <!-- Vertical Navigation Menu -->
-        <nav class="studio-nav" id="studio-nav">
-          <ul class="nav-list">
-            <li class="nav-item">
-              <a href="#cover" class="nav-link active" data-section="cover">
-                <span class="nav-num">00</span>
-                <span class="nav-text">OVERVIEW</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#work" class="nav-link" data-section="work">
-                <span class="nav-num">01</span>
-                <span class="nav-text">WORK</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#about" class="nav-link" data-section="about">
-                <span class="nav-num">02</span>
-                <span class="nav-text">ABOUT</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#contact" class="nav-link" data-section="contact">
-                <span class="nav-num">03</span>
-                <span class="nav-text">CONTACT</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-
-        <!-- Sidebar Footer Information -->
-        <div class="sidebar-footer">
-          <div class="sidebar-info-block">
-            <span class="info-label">EMAIL</span>
-            <a href="mailto:iris050705@naver.com" class="info-link" id="sidebar-email">iris050705@naver.com</a>
-          </div>
-          <div class="sidebar-info-block">
-            <span class="info-label">LOCATION</span>
-            <span class="info-text">Daejeon / Seoul, KR</span>
-          </div>
-          <div class="sidebar-info-block">
-            <span class="info-label">AFFILIATION</span>
-            <span class="info-text">Sangmyung University (Yr 3)</span>
-          </div>
-          <p class="sidebar-copyright">© 2026 Ha-yeon Jeon. All Rights Reserved.</p>
-        </div>
-
-      </div>
-    </aside>
-
-    <!-- MOBILE HEADER (Visible only on small screens) -->
-    <div class="mobile-header">
-      <a href="#cover" class="mobile-logo">HA-YEON JEON</a>
-      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">
-        <span class="menu-bar"></span>
-        <span class="menu-bar"></span>
-      </button>
+  <!-- ============================= HERO ============================= -->
+  <header class="hero" id="top">
+    <div class="hero-media">
+      <img src="hero_green_landscape.jpg" alt="Green landscape" loading="eager">
     </div>
+    <span class="hero-coords">LAT 36.49°N · LONG 127.08°E — DAEJEON, KR</span>
+    <span class="hero-badge"><i class="fa-solid fa-trophy"></i> 2026 인간환경학회 대상</span>
 
-    <!-- RIGHT MAIN EDITORIAL CONTENT -->
-    <main class="main-content" id="main-content">
+    <div class="hero-content">
+      <span class="eyebrow">Green Smart City · Landscape Architecture</span>
+      <h1 class="hero-title">Designing data-driven<br><em>green cities</em> for people.</h1>
+      <p class="hero-desc">
+        상명대학교 그린스마트시티학과 <strong>전하연</strong>입니다. 도시숲, 스마트 공원, 친환경 건축을 공간 데이터로 분석·설계하며 지속가능한 도시 인프라를 연구합니다.
+      </p>
+      <div class="hero-actions">
+        <a href="#work" class="btn btn-primary"><i class="fa-solid fa-arrow-down"></i> View Work</a>
+        <a href="#awards" class="btn btn-ghost"><i class="fa-solid fa-medal"></i> Awards & Honors</a>
+      </div>
+    </div>
+  </header>
 
-      <!-- =================================================================
-           SECTION 00: LUSH GREEN COVER / HERO SECTION (첫 표지 대표화면)
-           ================================================================= -->
-      <section class="cover-hero-section" id="cover">
-        <div class="cover-hero-frame">
-          
-          <!-- Cinematic Media & Organic Gradient Layers -->
-          <div class="cover-image-wrapper">
-            <img src="hero_green_landscape.jpg" alt="Lush Green Landscape Architecture" class="cover-hero-img" loading="eager">
-            
-            <!-- Soft Gradient Edge Feathering Vignette -->
-            <div class="vignette-feather-edge"></div>
-            
-            <!-- Atmospheric Drifting Mist Layers (영상 꾸밈 안개 효과) -->
-            <div class="ambient-mist ambient-mist-1"></div>
-            <div class="ambient-mist ambient-mist-2"></div>
-            
-            <!-- Natural Sunlight Caustic Ray / Shimmer Effect (자연광 린스 효과) -->
-            <div class="ambient-sunbeam"></div>
-            
-            <!-- Deep Botanical Tint Overlay -->
-            <div class="cover-organic-overlay"></div>
-            
-            <!-- Floating Green Pollen / Dew Particle Canvas (초록 미세 입자 캔버스) -->
-            <canvas id="cover-particle-canvas" class="cover-particles"></canvas>
-            
-            <div class="cover-glow-orb"></div>
-          </div>
-
-          <!-- Architectural Frame Coordinate Annotations -->
-          <div class="frame-annotation top-left">
-            <span class="coord-cross">+</span>
-            <span class="coord-text">LAT 36°49'N · LONG 127°08'E</span>
-          </div>
-          <div class="frame-annotation top-right">
-            <span class="coord-badge"><i class="fa-solid fa-wind"></i> MICROCLIMATE ACTIVE</span>
-          </div>
-          <div class="frame-annotation bottom-right">
-            <span class="coord-text">ELEVATION +120M · GREEN CANOPY 94%</span>
-          </div>
-
-          <!-- Cover Content Typography -->
-          <div class="cover-content">
-            <div class="cover-tag-row">
-              <span class="cover-botanical-tag">
-                <i class="fa-solid fa-seedling"></i> ECOLOGICAL LANDSCAPE PRACTICE
-              </span>
-              <span class="cover-award-tag">
-                <i class="fa-solid fa-trophy"></i> 2026 인간환경학회 대상
-              </span>
-            </div>
-
-            <h2 class="cover-hero-title">
-              Designing Resilient<br>
-              <em>Living Landscapes</em><br>
-              & Smart Green Cities.
-            </h2>
-
-            <p class="cover-hero-desc">
-              자연과 공간 데이터의 유기적 융합을 통해 지속가능한 도시 생태 인프라를 연구하고 설계하는 <strong>전하연</strong>의 포트폴리오입니다.
-            </p>
-
-            <div class="cover-cta-row">
-              <a href="#work" class="btn-cover-primary">
-                Explore Selected Works <i class="fa-solid fa-arrow-down"></i>
-              </a>
-              <a href="#contact" class="btn-cover-ghost">
-                Get In Touch <i class="fa-solid fa-arrow-right"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- =================================================================
-           SECTION 01: WORK (Project Centric Gallery)
-           ================================================================= -->
-      <section class="content-section" id="work">
-        <div class="section-title-wrap">
-          <span class="section-tag">SELECTED WORKS</span>
-          <h2 class="section-heading">Projects & Research</h2>
-        </div>
-
-        <!-- Filter / Index Bar -->
-        <div class="work-filter-bar">
-          <button class="filter-item active" data-filter="all">All Works</button>
-          <span class="filter-divider">/</span>
-          <button class="filter-item" data-filter="landscape">Landscape & Forest</button>
-          <span class="filter-divider">/</span>
-          <button class="filter-item" data-filter="smart-city">Smart City & Park</button>
-          <span class="filter-divider">/</span>
-          <button class="filter-item" data-filter="architecture">Eco-Architecture</button>
-          <span class="filter-divider">/</span>
-          <button class="filter-item" data-filter="research">Academic Research</button>
-        </div>
-
-        <div class="projects-container">
-
-          <!-- Project 01: Urban Forest (도시숲 최종.jpg) -->
-          <article class="work-item" data-category="landscape" id="work-urban-forest">
-            <div class="work-media-container" data-type="image" data-src="도시숲 최종.jpg" data-title="2026 Urban Forest Masterplan" data-meta="2026 / Landscape Architecture & Ecology">
-              <img src="도시숲 최종.jpg" alt="2026 도시숲 프로젝트" class="work-img" loading="lazy">
-              <div class="work-media-hover">
-                <span class="hover-label">View Project Image <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
-              </div>
-            </div>
-            <div class="work-meta-row">
-              <div class="work-index">01 / Landscape</div>
-              <div class="work-year">2026</div>
-            </div>
-            <div class="work-details">
-              <h3 class="work-title">2026 도시숲 마스터플랜</h3>
-              <p class="work-sub">Urban Forest Masterplan & Ecological Network Planning</p>
-              <p class="work-desc">
-                도심 열섬 현상 완화와 미세먼지 저감을 위한 복합 생태 도시숲 계획. 자생 수종 배치와 바람길 녹지 축 형성을 통해 지속가능한 도시 생태 네트워크를 제안합니다.
-              </p>
-              <div class="work-tags-list">
-                <span>#2026 도시숲공모전</span>
-                <span>#생태네트워크</span>
-                <span>#기후변화대응</span>
-                <span>#조경계획</span>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 02: Smart Park (스마트공원.jpg) -->
-          <article class="work-item" data-category="smart-city" id="work-smart-park">
-            <div class="work-media-container" data-type="image" data-src="스마트공원.jpg" data-title="Smart Green Park Solution" data-meta="2025–2026 / Smart City & Spatial Data">
-              <img src="스마트공원.jpg" alt="스마트공원 공간설계" class="work-img" loading="lazy">
-              <div class="work-media-hover">
-                <span class="hover-label">View Project Image <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
-              </div>
-            </div>
-            <div class="work-meta-row">
-              <div class="work-index">02 / Smart City</div>
-              <div class="work-year">2025–2026</div>
-            </div>
-            <div class="work-details">
-              <h3 class="work-title">스마트 공원 & 공간 분석 솔루션</h3>
-              <p class="work-sub">Smart Green Park & Environmental IoT Solution</p>
-              <p class="work-desc">
-                IoT 환경 센싱 기술과 공원 인프라를 유기적으로 융합한 미래형 시민 공원 설계. 미세먼지 연동 쿨링 포그, 스마트 벤치, 데이터 기반 동선 유도를 적용했습니다.
-              </p>
-              <div class="work-tags-list">
-                <span>#스마트공원</span>
-                <span>#IoT환경센서</span>
-                <span>#공간데이터</span>
-                <span>#미래공원설계</span>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 03: Eco Building Simulation (에코빌딩 최종.mp4) -->
-          <article class="work-item" data-category="architecture" id="work-eco-building">
-            <div class="work-media-container video-container" data-type="video" data-src="에코빌딩 최종.mp4" data-title="Eco-Building 3D Simulation" data-meta="2025–2026 / Zero-Energy Architecture">
-              <video src="에코빌딩 최종.mp4" class="work-video-preview" muted loop playsinline preload="metadata"></video>
-              <div class="work-media-hover">
-                <span class="hover-label">Play Full Simulation <i class="fa-solid fa-play"></i></span>
-              </div>
-              <span class="media-type-badge">3D VIDEO</span>
-            </div>
-            <div class="work-meta-row">
-              <div class="work-index">03 / Architecture</div>
-              <div class="work-year">2025–2026</div>
-            </div>
-            <div class="work-details">
-              <h3 class="work-title">친환경 에코 빌딩 3D 시뮬레이션</h3>
-              <p class="work-sub">Zero-Energy Building & 3D Environmental Modeling</p>
-              <p class="work-desc">
-                일조 분석과 자연 통풍 시뮬레이션을 거친 제로에너지 친환경 건축 모델링. 건물 일체형 태양광(BIPV) 및 수직 바이오월(Bio-wall) 설계를 구현했습니다.
-              </p>
-              <div class="work-tags-list">
-                <span>#에코빌딩</span>
-                <span>#3D시뮬레이션</span>
-                <span>#수직녹화</span>
-                <span>#친환경건축</span>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 04: Academic Research (인간환경학회 대상) -->
-          <article class="work-item" data-category="research" id="work-research">
-            <div class="work-media-container research-plate" data-type="research" data-src="" data-title="Human-Environment Interaction Research" data-meta="2026 / Academic Research (Grand Prize)">
-              <div class="research-plate-inner">
-                <span class="plate-award-tag">GRAND PRIZE / 대상</span>
-                <h4 class="plate-title">2026 인간환경학회<br>춘계학술포스터 대상</h4>
-                <p class="plate-org">사단법인 한국인간환경학회</p>
-              </div>
-              <div class="work-media-hover">
-                <span class="hover-label">View Research Overview <i class="fa-solid fa-arrow-up-right-from-square"></i></span>
-              </div>
-            </div>
-            <div class="work-meta-row">
-              <div class="work-index">04 / Academic Award</div>
-              <div class="work-year">2026</div>
-            </div>
-            <div class="work-details">
-              <h3 class="work-title">2026 인간환경학회 춘계학술포스터 대상 연구</h3>
-              <p class="work-sub">Human-Environment Interaction & Spatial Psychology Analysis</p>
-              <p class="work-desc">
-                도시 환경 요인이 거주민의 심리적 안정과 공간 만족도에 미치는 영향을 정량적 공간 데이터로 실증 분석한 연구로 학술대회 최우수 대상을 수상했습니다.
-              </p>
-              <div class="work-tags-list">
-                <span>#인간환경학회대상</span>
-                <span>#학술포스터</span>
-                <span>#공간통계분석</span>
-                <span>#환경심리</span>
-              </div>
-            </div>
-          </article>
-
-        </div>
-      </section>
-
-      <!-- =================================================================
-           SECTION 02: ABOUT (Philosophy, Bio, Education, Honors)
-           ================================================================= -->
-      <section class="content-section" id="about">
-        <div class="section-title-wrap">
-          <span class="section-tag">PROFILE & PRACTICE</span>
-          <h2 class="section-heading">About Ha-yeon Jeon</h2>
-        </div>
-
-        <!-- Architectural Statement with refined serif typography -->
-        <div class="about-statement-block">
-          <p class="statement-lead">
-            "도시는 단순한 구조물의 집합이 아닌, 자연과 인간이 상호작용하는 살아있는 유기적 생태계입니다. 정밀한 환경 데이터와 조경적 시선으로 지속가능한 공간을 설계합니다."
-          </p>
-        </div>
-
-        <div class="about-grid">
-          
-          <!-- Column 1: Background & Biography -->
-          <div class="about-col">
-            <h3 class="about-col-title">BIOGRAPHY</h3>
-            <p class="about-text">
-              상명대학교 그린스마트시티학과 3학년에 재학 중이며, 조경 계획, 도시 미기후 개선, 스마트 그린 인프라 및 친환경 건축 시뮬레이션을 심도 있게 탐구하고 있습니다.
-            </p>
-            <p class="about-text">
-              2026 인간환경학회 춘계학술포스터 대상을 수상하며 데이터 기반 공간 분석 역량을 입증하였으며, 도시숲 공모전과 다수의 교내 프로젝트를 통해 기획부터 시각화까지 전 과정을 수행해왔습니다.
-            </p>
-            
-            <div class="about-meta-list">
-              <div class="meta-row">
-                <span class="meta-key">Name</span>
-                <span class="meta-val">전하연 (Ha-yeon Jeon)</span>
-              </div>
-              <div class="meta-row">
-                <span class="meta-key">Born</span>
-                <span class="meta-val">2005.07.05</span>
-              </div>
-              <div class="meta-row">
-                <span class="meta-key">Major</span>
-                <span class="meta-val">Green Smart City (상명대학교)</span>
-              </div>
-              <div class="meta-row">
-                <span class="meta-key">Email</span>
-                <span class="meta-val"><a href="mailto:iris050705@naver.com" class="text-link">iris050705@naver.com</a></span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Column 2: Education & Academic History -->
-          <div class="about-col">
-            <h3 class="about-col-title">EDUCATION</h3>
-            
-            <div class="record-list">
-              <div class="record-item highlight-record">
-                <div class="record-head">
-                  <span class="record-name">상명대학교 그린스마트시티학과</span>
-                  <span class="record-period">2024 – Present</span>
-                </div>
-                <p class="record-sub">3학년 재학 중 (Department of Green Smart City, 3rd Year)</p>
-                <div class="record-action">
-                  <button class="btn-clean btn-cert-open" id="btn-cert-open">
-                    <i class="fa-regular fa-file-lines"></i> 재학증명서 확인 (Certificate)
-                  </button>
-                </div>
-              </div>
-
-              <div class="record-item">
-                <div class="record-head">
-                  <span class="record-name">대전여자고등학교</span>
-                  <span class="record-period">2021 – 2024</span>
-                </div>
-                <p class="record-sub">졸업 (Graduated)</p>
-              </div>
-
-              <div class="record-item">
-                <div class="record-head">
-                  <span class="record-name">은어송중학교</span>
-                  <span class="record-period">2018 – 2021</span>
-                </div>
-                <p class="record-sub">졸업 (Graduated)</p>
-              </div>
-
-              <div class="record-item">
-                <div class="record-head">
-                  <span class="record-name">산내초등학교</span>
-                  <span class="record-period">2012 – 2018</span>
-                </div>
-                <p class="record-sub">졸업 (Graduated)</p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Awards & Experience Split -->
-        <div class="about-grid secondary-grid">
-          
-          <!-- Honors & Awards -->
-          <div class="about-col">
-            <h3 class="about-col-title">AWARDS & HONORS</h3>
-            <div class="record-list">
-              
-              <div class="record-item highlight-award-item">
-                <div class="record-head">
-                  <span class="record-name">2026 인간환경학회 춘계학술포스터 대상</span>
-                  <span class="record-period">2026</span>
-                </div>
-                <p class="record-sub">사단법인 한국인간환경학회 (Grand Prize Award)</p>
-                <p class="record-desc">인간-환경 상호작용 및 공간 쾌적도 분석 연구 부문 최우수 대상 수상</p>
-              </div>
-
-              <div class="record-item">
-                <div class="record-head">
-                  <span class="record-name">2026 도시숲공모전 참가</span>
-                  <span class="record-period">2026</span>
-                </div>
-                <p class="record-sub">도시 생태 네트워크 마스터플랜 기획 출품</p>
-              </div>
-
-              <div class="record-item">
-                <div class="record-head">
-                  <span class="record-name">2025 교내공모전 참가</span>
-                  <span class="record-period">2025</span>
-                </div>
-                <p class="record-sub">상명대학교 스마트 그린 인프라 기획</p>
-              </div>
-
-              <div class="record-item">
-                <div class="record-head">
-                  <span class="record-name">2024 교내공모전 참가</span>
-                  <span class="record-period">2024</span>
-                </div>
-                <p class="record-sub">상명대학교 도시 환경 개선 프로젝트</p>
-              </div>
-
-            </div>
-          </div>
-
-          <!-- Professional & Global Experience -->
-          <div class="about-col">
-            <h3 class="about-col-title">EXPERIENCE & ACTIVITIES</h3>
-            <div class="record-list">
-              
-              <div class="record-item">
-                <div class="record-head">
-                  <span class="record-name">2026 Summer School 수료</span>
-                  <span class="record-period">2026</span>
-                </div>
-                <p class="record-sub">글로벌 그린스마트시티 및 지속가능성 집중 이수</p>
-              </div>
-
-              <div class="record-item">
-                <div class="record-head">
-                  <span class="record-name">땡큐베리머치 (대전점)</span>
-                  <span class="record-period">2024.06 – 2026.02</span>
-                </div>
-                <p class="record-sub">매장 운영 프로세스 관리 및 고객 서비스 (약 1년 8개월 재직)</p>
-                <p class="record-desc">성실한 장기 근무를 통한 현장 대응력, 팀워크, 원활한 소통 역량 확립</p>
-              </div>
-
-            </div>
-
-            <!-- Core Practice Areas -->
-            <div class="skills-block">
-              <h4 class="skills-heading">PRACTICE AREAS</h4>
-              <ul class="skills-tags">
-                <li>Urban Forest Planning</li>
-                <li>Landscape Architecture</li>
-                <li>Smart Green Park</li>
-                <li>3D Eco-Building Modeling</li>
-                <li>Spatial Data & GIS Analysis</li>
-                <li>Environmental Microclimate</li>
-              </ul>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- =================================================================
-           SECTION 03: CONTACT (Clean Studio Communication)
-           ================================================================= -->
-      <section class="content-section" id="contact">
-        <div class="section-title-wrap">
-          <span class="section-tag">INQUIRIES</span>
-          <h2 class="section-heading">Contact & Collaboration</h2>
-        </div>
-
-        <div class="contact-editorial-layout">
-          <div class="contact-lead-text">
-            <p>
-              조경 프로젝트, 스마트시티 기획, 공간 데이터 분석 및 협업 문의를 환영합니다.
-              아래의 연락처로 언제든지 편하게 문의해 주시기 바랍니다.
-            </p>
-          </div>
-
-          <div class="contact-details-grid">
-            <div class="contact-card interactive-copy" id="contact-email-card" title="Click to copy email">
-              <span class="contact-card-label">EMAIL INQUIRY (클릭하여 복사)</span>
-              <span class="contact-card-val text-serif">iris050705@naver.com</span>
-              <span class="copy-badge"><i class="fa-regular fa-copy"></i> Copy Email</span>
-            </div>
-
-            <div class="contact-card">
-              <span class="contact-card-label">PRIMARY LOCATIONS</span>
-              <span class="contact-card-val">대전광역시 / 서울 / 천안</span>
-              <span class="contact-card-sub">Daejeon & Seoul Metropolitan Area</span>
-            </div>
-
-            <div class="contact-card">
-              <span class="contact-card-label">CURRENT STATUS</span>
-              <span class="contact-card-val">상명대학교 그린스마트시티학과 (3학년)</span>
-              <span class="contact-card-sub">Dept. of Green Smart City, Sangmyung Univ.</span>
-            </div>
-
-            <div class="contact-card">
-              <span class="contact-card-label">REPRESENTATIVE HONORS</span>
-              <span class="contact-card-val">2026 인간환경학회 춘계학술포스터 대상</span>
-              <span class="contact-card-sub">Grand Prize, Korean Society for People, Plants and Environment</span>
-            </div>
-          </div>
-
-          <div class="contact-actions-row">
-            <a href="mailto:iris050705@naver.com" class="btn-studio">
-              <i class="fa-solid fa-paper-plane"></i> 이메일 직접 보내기
-            </a>
-            <button class="btn-studio btn-studio-outline" id="btn-print-action">
-              <i class="fa-solid fa-print"></i> 포트폴리오 PDF 인쇄
-            </button>
-            <button class="btn-studio btn-studio-outline" id="btn-cert-contact">
-              <i class="fa-regular fa-file-lines"></i> 재학증명서 원본 열람
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- Minimal Page Footer -->
-      <footer class="editorial-footer">
-        <div class="footer-left">
-          <span>HA-YEON JEON</span>
-          <span class="footer-dot">·</span>
-          <span>Landscape Architecture & Green Smart City</span>
-        </div>
-        <div class="footer-right">
-          <a href="#cover" class="btn-scroll-top">Back to top ↑</a>
-        </div>
-      </footer>
-
-    </main>
+  <!-- ============================= TICKER ============================= -->
+  <div class="ticker-strip">
+    <div class="ticker-track" id="ticker-track">
+      <span>
+        <span><b>2026</b> 인간환경학회 춘계학술포스터 대상</span>
+        <span><b>2026</b> 도시숲공모전 참가</span>
+        <span><b>2025</b> 교내공모전 참가</span>
+        <span><b>2024</b> 교내공모전 참가</span>
+        <span><b>2026</b> Summer School 수료</span>
+        <span>상명대학교 그린스마트시티학과 재학중</span>
+      </span>
+      <span aria-hidden="true">
+        <span><b>2026</b> 인간환경학회 춘계학술포스터 대상</span>
+        <span><b>2026</b> 도시숲공모전 참가</span>
+        <span><b>2025</b> 교내공모전 참가</span>
+        <span><b>2024</b> 교내공모전 참가</span>
+        <span><b>2026</b> Summer School 수료</span>
+        <span>상명대학교 그린스마트시티학과 재학중</span>
+      </span>
+    </div>
   </div>
 
-  <!-- MINIMAL ARCHITECTURAL LIGHTBOX MODAL -->
-  <div class="editorial-modal" id="media-modal" aria-hidden="true">
-    <div class="modal-backdrop" id="modal-backdrop"></div>
-    <div class="modal-window">
-      <div class="modal-topbar">
-        <div class="modal-info">
-          <span class="modal-meta" id="modal-meta">2026 / Project</span>
-          <h3 class="modal-title" id="modal-title">Project Title</h3>
+  <!-- ============================= WORK ============================= -->
+  <section id="work">
+    <div class="section-wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Selected Work</span>
+          <h2>Projects &amp; Research</h2>
         </div>
-        <button class="modal-close-btn" id="modal-close-btn" aria-label="Close modal">
-          <span>CLOSE [ESC]</span>
-        </button>
+        <span class="section-index">01 / 04</span>
       </div>
-      <div class="modal-content-area" id="modal-content-area">
-        <!-- Injected dynamically -->
+
+      <div class="filter-row">
+        <button class="filter-pill active" data-filter="all">All</button>
+        <button class="filter-pill" data-filter="landscape">Landscape &amp; Forest</button>
+        <button class="filter-pill" data-filter="smart-city">Smart City &amp; Park</button>
+        <button class="filter-pill" data-filter="architecture">Eco-Architecture</button>
+        <button class="filter-pill" data-filter="research">Academic Research</button>
       </div>
+
+      <div class="bento-grid" id="bento-grid">
+
+        <!-- Project 01 -->
+        <article class="work-card size-lg" data-category="landscape"
+          data-type="image" data-src="도시숲 최종.jpg"
+          data-title="2026 도시숲 마스터플랜" data-meta="2026 · Landscape Architecture & Ecology">
+          <div class="card-media"><img src="도시숲 최종.jpg" alt="도시숲 프로젝트" loading="lazy"></div>
+          <span class="card-badge">3D VIEW</span>
+          <div class="card-info">
+            <span class="card-index">01 — Urban Forest Masterplan</span>
+            <h3>2026 도시숲 마스터플랜</h3>
+            <p>도심 열섬 완화와 미세먼지 저감을 위한 생태 도시숲 계획. 자생 수종 배치와 바람길 녹지 축으로 지속가능한 생태 네트워크를 제안합니다.</p>
+            <div class="card-tags"><span>#도시숲공모전</span><span>#생태네트워크</span><span>#기후변화대응</span></div>
+          </div>
+        </article>
+
+        <!-- Project 02 -->
+        <article class="work-card size-sm" data-category="smart-city"
+          data-type="image" data-src="스마트공원.jpg"
+          data-title="스마트 공원 & 공간 분석 솔루션" data-meta="2025–2026 · Smart City & Spatial Data">
+          <div class="card-media"><img src="스마트공원.jpg" alt="스마트공원" loading="lazy"></div>
+          <div class="card-info">
+            <span class="card-index">02 — Smart City</span>
+            <h3>스마트 공원 솔루션</h3>
+            <p>IoT 환경 센싱과 공원 인프라를 융합한 미래형 시민 공원 설계.</p>
+            <div class="card-tags"><span>#IoT센서</span><span>#공간데이터</span></div>
+          </div>
+        </article>
+
+        <!-- Project 03 -->
+        <article class="work-card size-sm" data-category="architecture"
+          data-type="video" data-src="에코빌딩 최종.mp4"
+          data-title="친환경 에코빌딩 3D 시뮬레이션" data-meta="2025–2026 · Zero-Energy Architecture">
+          <div class="card-media"><video src="에코빌딩 최종.mp4" muted loop playsinline preload="metadata"></video></div>
+          <span class="card-badge"><i class="fa-solid fa-play"></i> VIDEO</span>
+          <div class="card-info">
+            <span class="card-index">03 — Eco-Architecture</span>
+            <h3>에코빌딩 3D 시뮬레이션</h3>
+            <p>일조·자연 통풍 분석을 거친 제로에너지 건축 모델링, BIPV 및 바이오월 설계.</p>
+            <div class="card-tags"><span>#3D시뮬레이션</span><span>#수직녹화</span></div>
+          </div>
+        </article>
+
+        <!-- Project 04 -->
+        <article class="work-card size-lg research-card" data-category="research"
+          data-type="research" data-src="" data-title="인간환경학회 대상 연구" data-meta="2026 · Academic Research (Grand Prize)">
+          <div class="card-media"><span class="plate-icon"><i class="fa-solid fa-award"></i></span></div>
+          <span class="card-badge award"><i class="fa-solid fa-trophy"></i> GRAND PRIZE</span>
+          <div class="card-info">
+            <span class="card-index">04 — Academic Award</span>
+            <h3>2026 인간환경학회 춘계학술포스터 대상</h3>
+            <p>도시 환경 요인이 거주민 심리적 안정과 공간 만족도에 미치는 영향을 정량 공간 데이터로 실증 분석한 연구로 최우수 대상을 수상했습니다.</p>
+            <div class="card-tags"><span>#학술포스터</span><span>#공간통계분석</span><span>#환경심리</span></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= AWARDS ============================= -->
+  <section id="awards">
+    <div class="section-wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Awards & Honors</span>
+          <h2>Recognition &amp; Activities</h2>
+        </div>
+        <span class="section-index">02 / 04</span>
+      </div>
+
+      <div class="awards-layout">
+        <div class="timeline">
+
+          <div class="tl-item grand">
+            <span class="tl-dot"></span>
+            <span class="tl-year">2026</span>
+            <h3 class="tl-title">인간환경학회 춘계학술포스터 대상</h3>
+            <p class="tl-org">사단법인 한국인간환경학회</p>
+            <p class="tl-desc">인간-환경 상호작용 및 공간 쾌적도 분석 연구 부문 최우수 대상 수상.</p>
+            <span class="tl-tag">GRAND PRIZE</span>
+          </div>
+
+          <div class="tl-item">
+            <span class="tl-dot"></span>
+            <span class="tl-year">2026</span>
+            <h3 class="tl-title">도시숲공모전 참가</h3>
+            <p class="tl-org">도시 생태 네트워크 마스터플랜 기획 출품</p>
+          </div>
+
+          <div class="tl-item">
+            <span class="tl-dot"></span>
+            <span class="tl-year">2026</span>
+            <h3 class="tl-title">Summer School 수료</h3>
+            <p class="tl-org">글로벌 그린스마트시티 및 지속가능성 집중 이수</p>
+          </div>
+
+          <div class="tl-item">
+            <span class="tl-dot"></span>
+            <span class="tl-year">2025</span>
+            <h3 class="tl-title">교내공모전 참가</h3>
+            <p class="tl-org">상명대학교 스마트 그린 인프라 기획</p>
+          </div>
+
+          <div class="tl-item">
+            <span class="tl-dot"></span>
+            <span class="tl-year">2024</span>
+            <h3 class="tl-title">교내공모전 참가</h3>
+            <p class="tl-org">상명대학교 도시 환경 개선 프로젝트</p>
+          </div>
+
+          <div class="tl-item">
+            <span class="tl-dot"></span>
+            <span class="tl-year">2024.06 – 2026.02</span>
+            <h3 class="tl-title">땡큐베리머치 (대전점)</h3>
+            <p class="tl-org">매장 운영 프로세스 관리 및 고객 서비스 (약 1년 8개월 재직)</p>
+            <p class="tl-desc">성실한 장기 근무를 통한 현장 대응력, 팀워크, 원활한 소통 역량 확립.</p>
+          </div>
+
+        </div>
+
+        <div class="side-panel">
+          <div class="stat-tile">
+            <div class="stat-num" data-count="1">0</div>
+            <div class="stat-label">GRAND PRIZE AWARD</div>
+          </div>
+          <div class="stat-tile">
+            <div class="stat-num" data-count="4">0</div>
+            <div class="stat-label">FEATURED PROJECTS</div>
+          </div>
+          <div class="stat-tile">
+            <div class="stat-num" data-count="3">0</div>
+            <div class="stat-label">CONTEST ENTRIES ('24–'26)</div>
+          </div>
+          <div class="stat-tile">
+            <div class="stat-num">3<span style="font-size:1.1rem;">rd</span></div>
+            <div class="stat-label">YEAR · GREEN SMART CITY, SMU</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= ABOUT ============================= -->
+  <section id="about">
+    <div class="section-wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Profile & Practice</span>
+          <h2>About Ha-yeon Jeon</h2>
+        </div>
+        <span class="section-index">03 / 04</span>
+      </div>
+
+      <div class="about-layout">
+        <div>
+          <p class="about-quote">"도시는 자연과 인간이 상호작용하는 살아있는 유기적 생태계입니다. 정밀한 환경 데이터와 조경적 시선으로 지속가능한 공간을 설계합니다."</p>
+          <p class="about-text">상명대학교 그린스마트시티학과 3학년에 재학 중이며, 조경 계획, 도시 미기후 개선, 스마트 그린 인프라 및 친환경 건축 시뮬레이션을 심도 있게 탐구하고 있습니다.</p>
+          <p class="about-text">2026 인간환경학회 춘계학술포스터 대상을 수상하며 데이터 기반 공간 분석 역량을 입증하였으며, 도시숲 공모전과 다수의 교내 프로젝트를 통해 기획부터 시각화까지 전 과정을 수행해왔습니다.</p>
+
+          <div class="meta-table">
+            <div class="meta-row"><span class="k">Name</span><span class="v">전하연 (Ha-yeon Jeon)</span></div>
+            <div class="meta-row"><span class="k">Born</span><span class="v">2005.07.05</span></div>
+            <div class="meta-row"><span class="k">Major</span><span class="v">Green Smart City, Sangmyung Univ.</span></div>
+            <div class="meta-row"><span class="k">Email</span><span class="v"><a href="mailto:iris050705@naver.com">iris050705@naver.com</a></span></div>
+            <div class="meta-row"><span class="k">Location</span><span class="v">Daejeon / Seoul, KR</span></div>
+          </div>
+
+          <div class="skills-cloud">
+            <span>Urban Forest Planning</span>
+            <span>Landscape Architecture</span>
+            <span>Smart Green Park</span>
+            <span>3D Eco-Building Modeling</span>
+            <span>Spatial Data & GIS</span>
+            <span>Environmental Microclimate</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="edu-list">
+            <div class="edu-item current">
+              <div class="edu-head"><span>상명대학교 그린스마트시티학과</span><span class="edu-period">2024 – Present</span></div>
+              <p class="edu-sub">3학년 재학 중 (Department of Green Smart City)</p>
+              <button class="edu-cert-btn" id="btn-cert-open"><i class="fa-regular fa-file-lines"></i> 재학증명서 확인</button>
+            </div>
+            <div class="edu-item">
+              <div class="edu-head"><span>대전여자고등학교</span><span class="edu-period">2021 – 2024</span></div>
+              <p class="edu-sub">졸업</p>
+            </div>
+            <div class="edu-item">
+              <div class="edu-head"><span>은어송중학교</span><span class="edu-period">2018 – 2021</span></div>
+              <p class="edu-sub">졸업</p>
+            </div>
+            <div class="edu-item">
+              <div class="edu-head"><span>산내초등학교</span><span class="edu-period">2012 – 2018</span></div>
+              <p class="edu-sub">졸업</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= CONTACT ============================= -->
+  <section id="contact">
+    <div class="section-wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Inquiries</span>
+          <h2>Contact &amp; Collaboration</h2>
+        </div>
+        <span class="section-index">04 / 04</span>
+      </div>
+
+      <div class="contact-hero">
+        <p class="contact-hint">조경 프로젝트, 스마트시티 기획, 공간 데이터 분석 및 협업 문의를 환영합니다.</p>
+        <button class="contact-email-huge" id="contact-email-card">iris050705@naver.com <i class="fa-regular fa-copy"></i></button>
+        <span class="contact-hint">클릭하여 이메일 주소 복사</span>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <span class="cc-label">PRIMARY LOCATIONS</span>
+          <span class="cc-val">대전광역시 / 서울 / 천안</span>
+          <span class="cc-sub">Daejeon & Seoul Metropolitan Area</span>
+        </div>
+        <div class="contact-card">
+          <span class="cc-label">CURRENT STATUS</span>
+          <span class="cc-val">상명대학교 그린스마트시티학과 (3학년)</span>
+          <span class="cc-sub">Dept. of Green Smart City, Sangmyung Univ.</span>
+        </div>
+        <div class="contact-card">
+          <span class="cc-label">REPRESENTATIVE HONOR</span>
+          <span class="cc-val">2026 인간환경학회 춘계학술포스터 대상</span>
+          <span class="cc-sub">Grand Prize, Korean Society for People, Plants and Environment</span>
+        </div>
+      </div>
+
+      <div class="contact-actions">
+        <a href="mailto:iris050705@naver.com" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> 이메일 보내기</a>
+        <button class="btn btn-ghost" id="btn-print-action"><i class="fa-solid fa-print"></i> PDF로 인쇄</button>
+        <button class="btn btn-ghost" id="btn-cert-contact"><i class="fa-regular fa-file-lines"></i> 재학증명서 열람</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="editorial-footer">
+    <span>HA-YEON JEON · Green Smart City &amp; Landscape Architecture © 2026</span>
+    <a href="#top">Back to top ↑</a>
+  </footer>
+
+  <!-- MEDIA LIGHTBOX -->
+  <div class="modal" id="media-modal" aria-hidden="true">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-box">
+      <div class="modal-top">
+        <div>
+          <span class="m-meta" id="modal-meta">2026 · Project</span>
+          <span class="m-title" id="modal-title">Project Title</span>
+        </div>
+        <button class="modal-close" id="modal-close-btn">CLOSE [ESC]</button>
+      </div>
+      <div class="modal-body" id="modal-content-area"></div>
     </div>
   </div>
 
   <!-- CERTIFICATE MODAL -->
-  <div class="editorial-modal" id="cert-modal" aria-hidden="true">
+  <div class="modal" id="cert-modal" aria-hidden="true">
     <div class="modal-backdrop" id="cert-backdrop"></div>
-    <div class="modal-window modal-window-doc">
-      <div class="modal-topbar">
-        <div class="modal-info">
-          <span class="modal-meta">Official Verification</span>
-          <h3 class="modal-title">상명대학교 재학증명서 (3학년)</h3>
+    <div class="modal-box">
+      <div class="modal-top">
+        <div>
+          <span class="m-meta">Official Verification</span>
+          <span class="m-title">상명대학교 재학증명서 (3학년)</span>
         </div>
-        <button class="modal-close-btn" id="cert-close-btn" aria-label="Close certificate">
-          <span>CLOSE [ESC]</span>
-        </button>
+        <button class="modal-close" id="cert-close-btn">CLOSE [ESC]</button>
       </div>
-      <div class="modal-content-area doc-area">
-        <div class="cert-doc-wrapper">
-          <img src="재학증명서 3학년.jpg" alt="상명대학교 재학증명서 (3학년)" class="cert-doc-img">
-        </div>
-        <p class="cert-doc-caption">상명대학교 그린스마트시티학과 3학년 공식 재학 증명 서류입니다.</p>
+      <div class="modal-body modal-doc">
+        <img src="재학증명서 3학년.jpg" alt="상명대학교 재학증명서">
+        <p class="modal-doc-caption">상명대학교 그린스마트시티학과 3학년 공식 재학 증명 서류입니다.</p>
       </div>
     </div>
   </div>
 
-  <!-- Toast Notification -->
-  <div class="minimal-toast" id="minimal-toast"></div>
+  <div class="toast" id="minimal-toast"></div>
 
-  <!-- JavaScript -->
   <script src="app.js"></script>
 </body>
 </html>
