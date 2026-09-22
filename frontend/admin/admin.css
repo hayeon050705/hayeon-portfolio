@@ -1,0 +1,124 @@
+/* ==========================================================================
+   ADMIN — reuses ../style.css tokens (--ink, --sage, --line, --font-*, etc.)
+   ========================================================================== */
+
+.admin-body { background: var(--bg); min-height: 100vh; }
+
+/* [hidden] must win over any display:flex/block rule below it in the cascade */
+[hidden] { display: none !important; }
+
+.admin-error {
+  color: #b3402f;
+  background: #fbeeec;
+  border: 1px solid #eccac3;
+  padding: 10px 14px;
+  font-size: 0.84rem;
+  border-radius: 6px;
+}
+
+/* ---- Login ---- */
+.admin-login-view {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.admin-login-card {
+  width: 100%; max-width: 360px;
+  text-align: center;
+}
+.admin-login-card h1 {
+  font-family: var(--font-serif); font-weight: 400; font-style: italic;
+  font-size: 1.9rem; margin-top: 14px;
+}
+.admin-login-desc { margin-top: 12px; color: var(--ink-soft); font-size: 0.88rem; }
+.admin-login-form { margin-top: 28px; display: flex; flex-direction: column; gap: 12px; }
+.admin-login-form input {
+  font: inherit; font-size: 0.95rem;
+  padding: 13px 16px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--bg-soft); color: var(--ink);
+}
+.admin-login-form input:focus { outline: 2px solid var(--sage); outline-offset: 1px; }
+.admin-login-card .admin-error { margin-top: 18px; text-align: left; }
+
+/* ---- Shared buttons ---- */
+.pbtn-fill, .admin-ghost-btn {
+  font-size: 0.85rem; font-weight: 500;
+  padding: 12px 20px; border-radius: 8px;
+  display: inline-flex; align-items: center; gap: 8px;
+  cursor: pointer; transition: opacity 0.15s, background 0.15s, border-color 0.15s;
+}
+.pbtn-fill { background: var(--ink); color: var(--bg); border: 1px solid var(--ink); }
+.pbtn-fill:hover { opacity: 0.85; }
+.pbtn-fill:disabled { opacity: 0.5; cursor: wait; }
+.admin-ghost-btn { background: transparent; color: var(--ink-soft); border: 1px solid var(--line); }
+.admin-ghost-btn:hover { color: var(--ink); border-color: var(--ink-faint); }
+
+/* ---- Dashboard shell ---- */
+.admin-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 40px; border-bottom: 1px solid var(--line);
+}
+.admin-nav .nav-word { font-family: var(--font-serif); font-style: italic; font-size: 1.15rem; }
+.admin-nav .nav-word em { color: var(--sage); font-style: italic; }
+.admin-nav-actions { display: flex; gap: 10px; }
+
+.admin-panel { max-width: 860px; margin: 0 auto; padding: 48px 24px 100px; }
+.admin-panel-head {
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 16px;
+  margin-bottom: 36px; flex-wrap: wrap;
+}
+.admin-panel-head h2 {
+  font-family: var(--font-serif); font-weight: 400; font-size: 1.6rem; margin-top: 8px;
+}
+
+/* ---- Project list ---- */
+.admin-empty { color: var(--ink-faint); font-size: 0.9rem; padding: 20px 0; }
+.admin-project-list { display: flex; flex-direction: column; gap: 12px; }
+.admin-project-row {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 18px 20px; border: 1px solid var(--line); border-radius: 10px;
+  cursor: pointer; transition: border-color 0.15s, background 0.15s;
+}
+.admin-project-row:hover { border-color: var(--ink-faint); background: var(--bg-soft); }
+.admin-project-row-main { min-width: 0; }
+.admin-project-row-main h3 { font-size: 1rem; font-weight: 600; }
+.admin-project-row-meta { margin-top: 4px; font-size: 0.8rem; color: var(--ink-faint); }
+.admin-status-badge {
+  flex-shrink: 0; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.02em;
+  padding: 5px 11px; border-radius: 999px; white-space: nowrap;
+}
+.admin-status-badge.draft { background: var(--bg-soft); color: var(--ink-faint); border: 1px solid var(--line); }
+.admin-status-badge.published { background: var(--sage-soft); color: var(--sage); }
+
+/* ---- Form ---- */
+.admin-form { display: flex; flex-direction: column; gap: 22px; }
+.admin-field { display: flex; flex-direction: column; gap: 8px; }
+.admin-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.admin-field label { font-size: 0.84rem; font-weight: 600; color: var(--ink); }
+.admin-field label .req { color: #b3402f; margin-left: 2px; }
+.admin-field label .admin-optional { color: var(--ink-faint); font-weight: 400; }
+.admin-field input, .admin-field textarea {
+  font: inherit; font-size: 0.92rem; color: var(--ink);
+  padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--bg); resize: vertical;
+}
+.admin-field input::placeholder, .admin-field textarea::placeholder { color: var(--ink-faint); }
+.admin-field input:focus, .admin-field textarea:focus { outline: 2px solid var(--sage); outline-offset: 1px; }
+
+.admin-status-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.status-opt {
+  text-align: left; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px;
+  background: var(--bg); cursor: pointer; display: flex; flex-direction: column; gap: 4px;
+  font-size: 0.9rem; font-weight: 600; color: var(--ink-soft); transition: border-color 0.15s, background 0.15s;
+}
+.status-opt small { font-weight: 400; font-size: 0.74rem; color: var(--ink-faint); line-height: 1.5; }
+.status-opt.active { border-color: var(--sage); background: var(--sage-soft); color: var(--sage); }
+.status-opt.active small { color: var(--ink-soft); }
+
+.admin-form-actions { display: flex; justify-content: flex-end; padding-top: 8px; }
+
+@media (max-width: 640px) {
+  .admin-nav { padding: 18px 20px; }
+  .admin-panel { padding: 36px 18px 80px; }
+  .admin-field-row, .admin-status-toggle { grid-template-columns: 1fr; }
+}

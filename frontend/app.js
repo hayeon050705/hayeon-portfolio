@@ -41,6 +41,15 @@ async function loadPortfolioData() {
     console.error('Failed to load portfolio content from the API', err);
     showToast('콘텐츠를 불러오지 못했습니다. 새로고침해 주세요.');
   }
+
+  // Separate from the block above: admin-managed entries are supplementary,
+  // so a failure here shouldn't be treated as a page-load error.
+  try {
+    const entries = await fetch('/api/entries').then(r => { if (!r.ok) throw new Error('entries fetch failed'); return r.json(); });
+    renderEntries(entries);
+  } catch (err) {
+    console.error('Failed to load project log entries', err);
+  }
 }
 
 function renderProfile(profile) {
@@ -181,6 +190,30 @@ function renderAwards(awards) {
       </div>
     `).join('');
   }
+}
+
+function renderEntries(entries) {
+  const section = document.getElementById('entries');
+  const listEl = document.getElementById('entry-list');
+  if (!section || !listEl) return;
+
+  if (!Array.isArray(entries) || !entries.length) {
+    section.hidden = true;
+    return;
+  }
+
+  section.hidden = false;
+  listEl.innerHTML = entries.map(en => `
+    <div class="entry-row">
+      <div class="entry-head">
+        <span class="entry-title">${esc(en.title)}</span>
+        <span class="entry-date">${esc(en.date)}</span>
+      </div>
+      <div class="entry-meta">${esc(en.role)} · ${esc(en.teamSize)}</div>
+      <div class="entry-desc">${esc(en.description)}</div>
+      ${en.notes ? `<div class="entry-notes">${esc(en.notes)}</div>` : ''}
+    </div>
+  `).join('');
 }
 
 /* ==========================================================================

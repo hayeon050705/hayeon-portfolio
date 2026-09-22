@@ -34,6 +34,7 @@ body {
 img, video { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
 ul { list-style: none; }
+[hidden] { display: none !important; }
 button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
 
 .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 40px; }
@@ -229,6 +230,17 @@ section { padding: 110px 0; }
 .award-org { font-size: 0.86rem; color: var(--ink-soft); margin-top: 4px; }
 .award-desc { font-size: 0.82rem; color: var(--ink-faint); margin-top: 6px; max-width: 56ch; }
 .award-badge { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sage); text-align: right; white-space: nowrap; }
+
+/* ---- Project Log (admin-managed entries) ---- */
+.entry-list { max-width: 780px; margin: 0 auto; }
+.entry-row { padding: 28px 0; border-top: 1px solid var(--line); }
+.entry-row:last-child { border-bottom: 1px solid var(--line); }
+.entry-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.entry-title { font-weight: 600; font-size: 1.05rem; }
+.entry-date { font-family: var(--font-serif); font-style: italic; color: var(--ink-faint); white-space: nowrap; }
+.entry-meta { margin-top: 6px; font-size: 0.82rem; color: var(--sage); }
+.entry-desc { margin-top: 10px; font-size: 0.9rem; color: var(--ink-soft); max-width: 62ch; }
+.entry-notes { margin-top: 8px; font-size: 0.8rem; color: var(--ink-faint); max-width: 62ch; }
 
 /* ==========================================================================
    ABOUT — centered column
