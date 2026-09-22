@@ -1,0 +1,42 @@
+{
+  "kicker": "Green Smart City · Landscape Architecture",
+  "heroDesc": "상명대학교 그린스마트시티학과 전하연입니다. 도시숲과 스마트 공원, 친환경 건축을 공간 데이터로 분석하고 설계합니다.",
+  "coverCaption": {
+    "left": "Eco-residential landscape study",
+    "right": "2026 인간환경학회 대상 수상"
+  },
+  "aboutQuote": "도시는 자연과 인간이 상호작용하는 살아있는 유기적 생태계입니다.",
+  "aboutBody": [
+    "상명대학교 그린스마트시티학과 3학년에 재학 중이며, 조경 계획, 도시 미기후 개선, 스마트 그린 인프라 및 친환경 건축 시뮬레이션을 심도 있게 탐구하고 있습니다.",
+    "2026 인간환경학회 춘계학술포스터 대상을 수상하며 데이터 기반 공간 분석 역량을 입증하였으며, 도시숲 공모전과 다수의 교내 프로젝트를 통해 기획부터 시각화까지 전 과정을 수행해왔습니다."
+  ],
+  "facts": [
+    { "k": "Name", "v": "전하연 (Ha-yeon Jeon)" },
+    { "k": "Born", "v": "2005.07.05" },
+    { "k": "Major", "v": "Green Smart City, SMU" },
+    { "k": "Email", "v": "iris050705@naver.com", "href": "mailto:iris050705@naver.com" }
+  ],
+  "skills": [
+    "Urban Forest Planning",
+    "Landscape Architecture",
+    "Smart Green Park",
+    "3D Eco-Building Modeling",
+    "Spatial Data & GIS",
+    "Environmental Microclimate"
+  ],
+  "education": [
+    { "name": "상명대학교 그린스마트시티학과", "sub": "3학년 재학 중 (Department of Green Smart City)", "period": "2024 – Present", "current": true, "hasCert": true },
+    { "name": "대전여자고등학교", "sub": "졸업", "period": "2021 – 2024" },
+    { "name": "은어송중학교", "sub": "졸업", "period": "2018 – 2021" },
+    { "name": "산내초등학교", "sub": "졸업", "period": "2012 – 2018" }
+  ],
+  "contact": {
+    "email": "iris050705@naver.com",
+    "hint": "클릭하여 이메일 주소 복사 · 조경 / 스마트시티 / 데이터 분석 협업 문의 환영",
+    "infoLine": [
+      "대전광역시 / 서울 / 천안",
+      "상명대학교 그린스마트시티학과 (3학년)",
+      "2026 인간환경학회 대상"
+    ]
+  }
+}

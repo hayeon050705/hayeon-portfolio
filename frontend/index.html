@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="전하연 조경 및 그린스마트시티 포트폴리오. 도시숲, 스마트 파크, 친환경 건축, 공간 데이터 분석 연구와 수상 경력.">
+  <title>Ha-yeon Jeon | Portfolio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="topnav" id="topnav">
+    <a href="#top" class="nav-word">Ha-yeon Jeon</a>
+    <div class="nav-right">
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#work" class="nav-link" data-section="work">Work</a></li>
+        <li><a href="#awards" class="nav-link" data-section="awards">Awards</a></li>
+        <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+        <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
+      </ul>
+      <div class="share-wrap" id="share-wrap">
+        <button class="share-btn" id="share-btn" aria-label="공유하기" aria-haspopup="true" aria-expanded="false">
+          <i class="fa-solid fa-arrow-up-from-bracket"></i>
+        </button>
+        <div class="share-menu" id="share-menu" role="menu">
+          <button role="menuitem" id="share-copy-link"><i class="fa-solid fa-link"></i> 링크 복사</button>
+          <button role="menuitem" id="share-pdf"><i class="fa-regular fa-file-pdf"></i> PDF로 공유</button>
+        </div>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu"><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <span class="kicker" id="hero-kicker">Green Smart City · Landscape Architecture</span>
+    <h1 class="hero-title">Designing quiet, <em>data-driven</em><br>green cities.</h1>
+    <p class="hero-desc" id="hero-desc"></p>
+    <div class="scroll-cue"><span class="line"></span>SCROLL</div>
+  </header>
+
+  <div class="cover-image reveal">
+    <figure>
+      <img src="hero_green_landscape.jpg" alt="Green landscape architecture">
+      <figcaption class="cover-caption" id="cover-caption">
+        <span></span>
+        <span></span>
+      </figcaption>
+    </figure>
+  </div>
+
+  <!-- ============================= WORK ============================= -->
+  <section id="work">
+    <div class="wrap">
+      <div class="sec-intro reveal">
+        <span class="kicker">Selected Work</span>
+        <h2>Projects &amp; Research</h2>
+        <div class="work-filter">
+          <button class="active" data-filter="all">All</button>
+          <button data-filter="landscape">Landscape</button>
+          <button data-filter="smart-city">Smart City</button>
+          <button data-filter="architecture">Architecture</button>
+          <button data-filter="research">Research</button>
+        </div>
+      </div>
+
+      <div id="work-list"><!-- populated from /api/projects --></div>
+    </div>
+  </section>
+
+  <!-- ============================= AWARDS ============================= -->
+  <section id="awards">
+    <div class="wrap">
+      <div class="sec-intro reveal">
+        <span class="kicker">Recognition</span>
+        <h2>Awards &amp; Honors</h2>
+      </div>
+
+      <div class="stat-line reveal" id="stat-line"><!-- populated from /api/awards --></div>
+
+      <div class="award-list reveal" id="award-list"><!-- populated from /api/awards --></div>
+    </div>
+  </section>
+
+  <!-- ============================= ABOUT ============================= -->
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-intro reveal">
+        <span class="kicker">Profile</span>
+        <h2>About</h2>
+      </div>
+
+      <div class="about-col reveal">
+        <p class="about-quote" id="about-quote"></p>
+        <div class="about-body" id="about-body"><!-- populated from /api/profile --></div>
+
+        <div class="fact-line" id="fact-line"><!-- populated from /api/profile --></div>
+
+        <p class="skills-line" id="skills-line"></p>
+
+        <div class="edu-line" id="edu-line"><!-- populated from /api/profile --></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= CONTACT ============================= -->
+  <section id="contact">
+    <div class="wrap contact-col reveal">
+      <span class="kicker">Get in touch</span>
+      <div style="margin-top:20px;">
+        <button class="contact-email" id="contact-email-card"></button>
+      </div>
+      <p class="contact-hint" id="contact-hint"></p>
+
+      <p class="contact-info-line" id="contact-info-line"><!-- populated from /api/profile --></p>
+
+      <div class="contact-links">
+        <a href="mailto:" id="contact-mail-link">이메일 보내기</a>
+        <button id="btn-print-action">PDF로 인쇄</button>
+        <button id="btn-cert-contact">재학증명서 열람</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; width:100%;">
+      <span>Ha-yeon Jeon · Green Smart City &amp; Landscape Architecture © 2026</span>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <!-- MEDIA LIGHTBOX -->
+  <div class="wmodal" id="media-modal" aria-hidden="true">
+    <div class="wmodal-backdrop" id="modal-backdrop"></div>
+    <div class="wmodal-box">
+      <div class="wmodal-top">
+        <div>
+          <span class="m-meta" id="modal-meta">2026 · Project</span>
+          <span class="m-title" id="modal-title">Project Title</span>
+        </div>
+        <button class="wmodal-close" id="modal-close-btn" aria-label="Close">✕</button>
+      </div>
+      <div class="wmodal-body" id="modal-content-area"></div>
+    </div>
+  </div>
+
+  <!-- CERTIFICATE MODAL -->
+  <div class="wmodal" id="cert-modal" aria-hidden="true">
+    <div class="wmodal-backdrop" id="cert-backdrop"></div>
+    <div class="wmodal-box">
+      <div class="wmodal-top">
+        <div>
+          <span class="m-meta">Official Verification</span>
+          <span class="m-title">상명대학교 재학증명서 (3학년)</span>
+        </div>
+        <button class="wmodal-close" id="cert-close-btn" aria-label="Close">✕</button>
+      </div>
+      <div class="wmodal-body wmodal-doc">
+        <img src="재학증명서 3학년.jpg" alt="상명대학교 재학증명서">
+        <p class="wmodal-doc-cap">상명대학교 그린스마트시티학과 3학년 공식 재학 증명 서류입니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="wtoast" id="minimal-toast"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

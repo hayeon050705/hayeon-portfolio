@@ -1,0 +1,52 @@
+{
+  "stats": [
+    { "value": "1", "label": "Grand Prize" },
+    { "value": "4", "label": "Projects" },
+    { "value": "3", "label": "Contest Entries" },
+    { "value": "3rd", "label": "Year, SMU" }
+  ],
+  "items": [
+    {
+      "year": "2026",
+      "title": "인간환경학회 춘계학술포스터 대상",
+      "org": "사단법인 한국인간환경학회",
+      "desc": "인간-환경 상호작용 및 공간 쾌적도 분석 연구 부문 최우수 대상 수상.",
+      "badge": "Grand Prize"
+    },
+    {
+      "year": "2026",
+      "title": "도시숲공모전 참가",
+      "org": "도시 생태 네트워크 마스터플랜 기획 출품",
+      "desc": null,
+      "badge": null
+    },
+    {
+      "year": "2026",
+      "title": "Summer School 수료",
+      "org": "글로벌 그린스마트시티 및 지속가능성 집중 이수",
+      "desc": null,
+      "badge": null
+    },
+    {
+      "year": "2025",
+      "title": "교내공모전 참가",
+      "org": "상명대학교 스마트 그린 인프라 기획",
+      "desc": null,
+      "badge": null
+    },
+    {
+      "year": "2024",
+      "title": "교내공모전 참가",
+      "org": "상명대학교 도시 환경 개선 프로젝트",
+      "desc": null,
+      "badge": null
+    },
+    {
+      "year": "2024–2026",
+      "title": "땡큐베리머치 (대전점)",
+      "org": "매장 운영 프로세스 관리 및 고객 서비스 (약 1년 8개월 재직)",
+      "desc": "성실한 장기 근무를 통한 현장 대응력, 팀워크, 원활한 소통 역량 확립.",
+      "badge": null
+    }
+  ]
+}

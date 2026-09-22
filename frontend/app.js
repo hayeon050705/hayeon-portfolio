@@ -1,16 +1,187 @@
 /**
  * HA-YEON JEON | Minimal White Portfolio (v4)
+ * Content (profile/projects/awards) is fetched from /api/* — served today from
+ * local JSON in /backend/data via /backend/lib/store.js, swappable for a real
+ * database later without any frontend change.
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+let CONTACT_EMAIL = 'iris050705@naver.com';
+
+document.addEventListener('DOMContentLoaded', async () => {
   initNav();
+  initActions();
+  initShare();
+  await loadPortfolioData();
   initReveal();
   initFilter();
   initMediaModal();
   initCertModal();
-  initActions();
-  initShare();
 });
+
+/* ==========================================================================
+   0. Fetch + render content from the backend API
+   ========================================================================== */
+function esc(str) {
+  const div = document.createElement('div');
+  div.textContent = str == null ? '' : String(str);
+  return div.innerHTML;
+}
+
+async function loadPortfolioData() {
+  try {
+    const [profile, projects, awards] = await Promise.all([
+      fetch('/api/profile').then(r => { if (!r.ok) throw new Error('profile fetch failed'); return r.json(); }),
+      fetch('/api/projects').then(r => { if (!r.ok) throw new Error('projects fetch failed'); return r.json(); }),
+      fetch('/api/awards').then(r => { if (!r.ok) throw new Error('awards fetch failed'); return r.json(); })
+    ]);
+    renderProfile(profile);
+    renderProjects(projects);
+    renderAwards(awards);
+  } catch (err) {
+    console.error('Failed to load portfolio content from the API', err);
+    showToast('콘텐츠를 불러오지 못했습니다. 새로고침해 주세요.');
+  }
+}
+
+function renderProfile(profile) {
+  if (!profile) return;
+
+  const kickerEl = document.getElementById('hero-kicker');
+  if (kickerEl && profile.kicker) kickerEl.textContent = profile.kicker;
+
+  const descEl = document.getElementById('hero-desc');
+  if (descEl) descEl.textContent = profile.heroDesc || '';
+
+  const captionEl = document.getElementById('cover-caption');
+  if (captionEl && profile.coverCaption) {
+    const spans = captionEl.querySelectorAll('span');
+    if (spans[0]) spans[0].textContent = profile.coverCaption.left || '';
+    if (spans[1]) spans[1].textContent = profile.coverCaption.right || '';
+  }
+
+  const quoteEl = document.getElementById('about-quote');
+  if (quoteEl) quoteEl.textContent = profile.aboutQuote ? `"${profile.aboutQuote}"` : '';
+
+  const bodyEl = document.getElementById('about-body');
+  if (bodyEl) {
+    bodyEl.innerHTML = (profile.aboutBody || []).map(p => `<p>${esc(p)}</p>`).join('');
+  }
+
+  const factLineEl = document.getElementById('fact-line');
+  if (factLineEl) {
+    factLineEl.innerHTML = (profile.facts || []).map(f => {
+      const value = f.href ? `<a href="${esc(f.href)}">${esc(f.v)}</a>` : esc(f.v);
+      return `<span class="item"><span class="k">${esc(f.k)}</span>${value}</span>`;
+    }).join('');
+  }
+
+  const skillsEl = document.getElementById('skills-line');
+  if (skillsEl) {
+    skillsEl.innerHTML = (profile.skills || []).map(s => `<span>${esc(s)}</span>`).join('');
+  }
+
+  const eduEl = document.getElementById('edu-line');
+  if (eduEl) {
+    eduEl.innerHTML = (profile.education || []).map(e => {
+      const certBtn = e.hasCert ? `<button class="cert-link" id="btn-cert-open">재학증명서 확인 →</button>` : '';
+      return `
+        <div class="edu-row${e.current ? ' current' : ''}">
+          <div>
+            <div class="name">${esc(e.name)}</div>
+            <div class="sub">${esc(e.sub)}</div>
+            ${certBtn}
+          </div>
+          <span class="period">${esc(e.period)}</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  if (profile.contact) {
+    CONTACT_EMAIL = profile.contact.email || CONTACT_EMAIL;
+
+    const emailBtn = document.getElementById('contact-email-card');
+    if (emailBtn) emailBtn.textContent = CONTACT_EMAIL;
+
+    const mailLink = document.getElementById('contact-mail-link');
+    if (mailLink) mailLink.href = `mailto:${CONTACT_EMAIL}`;
+
+    const hintEl = document.getElementById('contact-hint');
+    if (hintEl) hintEl.textContent = profile.contact.hint || '';
+
+    const infoLineEl = document.getElementById('contact-info-line');
+    if (infoLineEl) {
+      infoLineEl.innerHTML = (profile.contact.infoLine || []).map(s => `<span>${esc(s)}</span>`).join('');
+    }
+  }
+}
+
+function workMetaHTML(p) {
+  if (p.badge) {
+    return `<span class="badge">${esc(p.badge)}</span><br>${esc(p.metaCategory)} · ${esc(p.metaYear)}`;
+  }
+  return `${esc(p.metaCategory)}<br>${esc(p.metaYear)}`;
+}
+
+function workFigureHTML(p) {
+  if (p.type === 'video') {
+    return `<video src="${esc(p.src)}" muted loop playsinline preload="metadata"></video>`;
+  }
+  if (p.type === 'research') {
+    return `<i class="fa-solid fa-award"></i>`;
+  }
+  return `<img src="${esc(p.src)}" alt="${esc(p.alt || p.title)}" loading="lazy">`;
+}
+
+function renderProjects(projects) {
+  const listEl = document.getElementById('work-list');
+  if (!listEl || !Array.isArray(projects)) return;
+
+  listEl.innerHTML = projects.map(p => `
+    <article class="work-row reveal" data-category="${esc(p.category)}"
+      data-type="${esc(p.type)}" data-src="${esc(p.src)}" data-title="${esc(p.modalTitle || p.title)}" data-meta="${esc(p.modalMeta || '')}">
+      <div class="work-figure${p.type === 'research' ? ' research-plate' : ''}">${workFigureHTML(p)}</div>
+      <div class="work-caption">
+        <div class="work-caption-left">
+          <span class="work-idx">${esc(p.idx)}</span>
+          <div>
+            <h3>${esc(p.title)}</h3>
+            <p>${esc(p.description)}</p>
+            <div class="work-tags">${(p.tags || []).map(t => `<span>${esc(t)}</span>`).join('')}</div>
+          </div>
+        </div>
+        <div class="work-meta">${workMetaHTML(p)}</div>
+      </div>
+    </article>
+  `).join('');
+}
+
+function renderAwards(awards) {
+  if (!awards) return;
+
+  const statEl = document.getElementById('stat-line');
+  if (statEl && Array.isArray(awards.stats)) {
+    statEl.innerHTML = awards.stats.map((s, i) => {
+      const sep = i < awards.stats.length - 1 ? '<span class="sep">·</span>' : '';
+      return `<span><b>${esc(s.value)}</b> ${esc(s.label)}</span>${sep}`;
+    }).join('');
+  }
+
+  const listEl = document.getElementById('award-list');
+  if (listEl && Array.isArray(awards.items)) {
+    listEl.innerHTML = awards.items.map(a => `
+      <div class="award-row">
+        <span class="award-year">${esc(a.year)}</span>
+        <div>
+          <div class="award-title">${esc(a.title)}</div>
+          <div class="award-org">${esc(a.org)}</div>
+          ${a.desc ? `<div class="award-desc">${esc(a.desc)}</div>` : ''}
+        </div>
+        <span class="award-badge">${esc(a.badge || '')}</span>
+      </div>
+    `).join('');
+  }
+}
 
 /* ==========================================================================
    1. Nav — scroll style, scrollspy, mobile toggle
@@ -178,7 +349,7 @@ function initActions() {
 
   const emailCard = document.getElementById('contact-email-card');
   emailCard?.addEventListener('click', () => {
-    copyToClipboard('iris050705@naver.com', '이메일 주소(iris050705@naver.com)');
+    copyToClipboard(CONTACT_EMAIL, `이메일 주소(${CONTACT_EMAIL})`);
   });
 }
 
@@ -583,7 +754,7 @@ async function buildPortfolioPdf() {
   doc.setFontSize(15);
   setColor(SAGE);
   ensureSpace(22);
-  doc.text('iris050705@naver.com', marginX, y);
+  doc.text(CONTACT_EMAIL, marginX, y);
   y += 20;
   paragraph(data.contactLine, { size: 9.5, color: SOFT, lineGap: 14 });
 
