@@ -283,6 +283,13 @@ section { padding: 110px 0; }
 }
 .contact-email:hover { color: var(--sage); border-color: var(--sage); }
 .contact-hint { margin-top: 18px; font-size: 0.82rem; color: var(--ink-faint); }
+.contact-reserve {
+  display: inline-block; margin-top: 30px; padding: 14px 38px;
+  font-size: 0.95rem; font-weight: 500;
+  color: var(--bg); background: var(--sage); border-radius: 999px;
+  transition: background 0.2s, transform 0.2s var(--ease);
+}
+.contact-reserve:hover { background: var(--ink); transform: translateY(-2px); }
 .contact-info-line { margin-top: 40px; font-size: 0.86rem; color: var(--ink-soft); }
 .contact-info-line span:not(:last-child)::after { content: '—'; margin: 0 12px; color: var(--line); }
 .contact-links { margin-top: 34px; display: flex; justify-content: center; gap: 26px; font-size: 0.82rem; flex-wrap: wrap; }
@@ -363,5 +370,5 @@ section { padding: 110px 0; }
   .award-badge { text-align: left; }
 }
 @media print {
-  .topnav, .wmodal, .wtoast, .work-filter, .scroll-cue, .contact-links { display: none !important; }
+  .topnav, .wmodal, .wtoast, .work-filter, .scroll-cue, .contact-links, .contact-reserve { display: none !important; }
 }
