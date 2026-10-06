@@ -73,7 +73,7 @@
   function loadAvailability(y, m) {
     var from = ymd(y, m, 1);
     var to = ymd(y, m, new Date(y, m + 1, 0).getDate());
-    return fetch('/api/availability?from=' + from + '&to=' + to, { cache: 'no-store' })
+    return fetch('/api/reservations?from=' + from + '&to=' + to, { cache: 'no-store' })
       .then(function (res) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         return res.json();
