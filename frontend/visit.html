@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="전하연 포트폴리오 방문 안내. 상명대학교 천안캠퍼스 상록관 306호 찾아오는 길, 지도와 현재 날씨, 방문 예약.">
+  <title>찾아오는 길 | Ha-yeon Jeon</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css" />
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="visit.css">
+</head>
+<body class="sub-page">
+
+  <nav class="topnav scrolled">
+    <a href="index.html" class="nav-word">Ha-yeon Jeon</a>
+    <a href="index.html#contact" class="nav-back">&larr; 포트폴리오로 돌아가기</a>
+  </nav>
+
+  <main class="visit">
+    <div class="wrap">
+      <header class="visit-head">
+        <span class="kicker">Visit</span>
+        <h1>찾아오는 길</h1>
+        <address class="visit-address">
+          <span class="addr-main">상명대학교 천안 (상명대길 31)</span>
+          <span class="addr-room">상록관 306호</span>
+        </address>
+      </header>
+
+      <section class="visit-grid" aria-label="위치와 날씨">
+        <div class="map-card">
+          <iframe
+            id="visit-map"
+            title="상명대학교 천안캠퍼스 위치 지도"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=127.1740%2C36.8305%2C127.1840%2C36.8355&amp;layer=mapnik&amp;marker=36.8330%2C127.1790"
+            loading="lazy"
+            referrerpolicy="no-referrer"></iframe>
+          <a class="map-open" href="https://www.openstreetmap.org/?mlat=36.8330&amp;mlon=127.1790#map=17/36.8330/127.1790" target="_blank" rel="noopener">큰 지도에서 보기 &nearr;</a>
+        </div>
+
+        <aside class="weather-card" aria-labelledby="weather-title">
+          <span class="kicker" id="weather-title">Weather at the address</span>
+          <div class="weather-main" aria-live="polite">
+            <span class="weather-condition" id="weather-condition">불러오는 중…</span>
+            <span class="weather-temp"><span id="weather-temp">–</span><sup>°C</sup></span>
+          </div>
+          <dl class="weather-stats">
+            <div>
+              <dt>온도</dt>
+              <dd><span id="weather-temp-2">–</span>°C</dd>
+            </div>
+            <div>
+              <dt>습도</dt>
+              <dd><span id="weather-humidity">–</span>%</dd>
+            </div>
+          </dl>
+          <p class="weather-time" id="weather-time"></p>
+        </aside>
+      </section>
+
+      <div class="visit-cta">
+        <a class="btn-reserve" href="reserve.html">방문 예약하기</a>
+      </div>
+
+      <p class="visit-credit">
+        지도 &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>
+        · 날씨 <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>
+      </p>
+    </div>
+  </main>
+
+  <script src="visit.js"></script>
+</body>
+</html>
