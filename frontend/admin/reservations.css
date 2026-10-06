@@ -1,0 +1,48 @@
+/* Admin: visit reservation list. Reuses admin.css base classes. */
+
+.admin-nav { flex-wrap: wrap; gap: 10px; }
+.admin-nav-actions .admin-ghost-btn { white-space: nowrap; }
+
+.rsv-auth { text-align: center; padding-top: 110px; }
+.rsv-auth h2 { margin: 12px 0 8px; font-family: var(--font-serif); font-weight: 500; font-size: 1.6rem; }
+.rsv-auth p { color: var(--ink-soft); font-size: 0.9rem; }
+.rsv-login-link { display: inline-block; margin-top: 26px; padding: 12px 28px; border-radius: 999px; }
+
+.rsv-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.rsv-tab {
+  padding: 8px 16px; font-size: 0.84rem; color: var(--ink-soft);
+  border: 1px solid var(--line); border-radius: 999px;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.rsv-tab b { margin-left: 6px; font-weight: 600; color: var(--ink-faint); }
+.rsv-tab:hover { border-color: var(--ink-faint); color: var(--ink); }
+.rsv-tab.active { background: var(--sage-soft); border-color: var(--sage); color: var(--sage); }
+.rsv-tab.active b { color: var(--sage); }
+
+.rsv-list { display: flex; flex-direction: column; gap: 12px; }
+.rsv-card {
+  display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; gap: 22px;
+  padding: 20px 22px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg);
+}
+.rsv-when strong { display: block; font-family: var(--font-serif); font-weight: 500; font-size: 1.1rem; line-height: 1.3; }
+.rsv-when span { display: block; margin-top: 4px; font-size: 0.95rem; color: var(--sage); font-weight: 500; }
+.rsv-who { min-width: 0; }
+.rsv-name { font-size: 1rem; font-weight: 600; }
+.rsv-email { display: inline-block; margin-top: 2px; font-size: 0.84rem; color: var(--ink-soft); border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.rsv-email:hover { color: var(--sage); border-color: var(--sage); }
+.rsv-purpose {
+  margin-top: 12px; font-size: 0.88rem; color: var(--ink-soft); line-height: 1.7;
+  white-space: pre-wrap; overflow-wrap: anywhere;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden;
+}
+.rsv-purpose.open { display: block; -webkit-line-clamp: unset; }
+.rsv-more { margin-top: 6px; font-size: 0.78rem; color: var(--sage); border-bottom: 1px solid var(--sage); }
+.rsv-side { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.rsv-received { font-size: 0.74rem; color: var(--ink-faint); white-space: nowrap; }
+.admin-status-badge.pending { background: #fbf3e2; color: #8a6414; }
+.admin-status-badge.past { background: var(--bg-soft); color: var(--ink-faint); border: 1px solid var(--line); }
+
+@media (max-width: 720px) {
+  .rsv-card { grid-template-columns: 1fr; gap: 12px; }
+  .rsv-side { flex-direction: row; justify-content: space-between; align-items: center; text-align: left; }
+}
