@@ -1,0 +1,139 @@
+/* Reservation page. Builds on style.css + visit.css tokens. */
+
+:root {
+  --danger: #c0392b;
+  --danger-soft: #fdf3f2;
+  --holiday: #c0564a;
+}
+
+.reserve-intro { margin-top: 14px; color: var(--ink-soft); max-width: 640px; }
+
+.reserve-form { margin-top: 44px; }
+.reserve-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 36px;
+  align-items: stretch;
+}
+.reserve-col { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+
+/* ---------- fields ---------- */
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field-grow { flex: 1; }
+.field-label { font-size: 0.84rem; font-weight: 500; color: var(--ink); }
+.field-label em { font-style: normal; font-size: 0.7rem; color: var(--sage); margin-left: 6px; letter-spacing: 0.04em; }
+
+.field-box {
+  width: 100%;
+  padding: 13px 14px;
+  font: inherit; font-size: 0.95rem; color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.field-box::placeholder { color: var(--ink-faint); }
+.field-box:hover { border-color: var(--ink-faint); }
+.field-box:focus { outline: none; border-color: var(--sage); box-shadow: 0 0 0 3px rgba(74, 107, 82, 0.15); }
+select.field-box { appearance: none; cursor: pointer; padding-right: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%2363625a' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 16px center; }
+.date-box { display: block; background: var(--bg-soft); min-height: 49px; }
+.date-box.is-empty { color: var(--ink-faint); }
+.date-box:not(.is-empty) { color: var(--ink); font-weight: 500; }
+.purpose-box { flex: 1; min-height: 240px; resize: vertical; line-height: 1.6; }
+
+.field-box.is-invalid { border-color: var(--danger); background: var(--danger-soft); }
+.field-box.is-invalid:focus { box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.15); }
+.field-error { min-height: 1.1em; font-size: 0.78rem; color: var(--danger); }
+.field-error:empty { min-height: 0; }
+.field-foot { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.char-count { margin-left: auto; font-size: 0.72rem; color: var(--ink-faint); white-space: nowrap; }
+
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+/* ---------- calendar ---------- */
+.cal { padding: 20px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+.cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.cal-title { font-family: var(--font-serif); font-weight: 500; font-size: 1.15rem; }
+.cal-nav {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--line);
+  font-size: 1.2rem; line-height: 1; color: var(--ink-soft);
+  transition: border-color 0.2s, color 0.2s;
+}
+.cal-nav:hover:not(:disabled) { border-color: var(--ink); color: var(--ink); }
+.cal-nav:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.cal-week, .cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.cal-week span { text-align: center; font-size: 0.72rem; color: var(--ink-faint); padding: 6px 0; }
+.cal-week .is-sun { color: var(--holiday); }
+
+.cal-grid { min-height: 240px; align-content: start; }
+.cal-loading { grid-column: 1 / -1; padding: 90px 0; text-align: center; font-size: 0.85rem; color: var(--ink-faint); }
+.cal-day {
+  aspect-ratio: 1; min-height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem; border-radius: 8px;
+  color: var(--ink);
+  border: 1px solid transparent;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.cal-day.is-blank { visibility: hidden; }
+.cal-day.is-ok { background: var(--sage-soft); cursor: pointer; }
+.cal-day.is-ok:hover { border-color: var(--sage); }
+.cal-day.is-ok:focus-visible { outline: 2px solid var(--sage); outline-offset: 2px; }
+.cal-day.is-off { color: var(--ink-faint); cursor: not-allowed; opacity: 0.55; }
+.cal-day.is-holiday { color: var(--holiday); cursor: not-allowed; opacity: 0.8; }
+.cal-day.is-today { font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+.cal-day.is-selected { background: var(--sage); color: var(--bg); border-color: var(--sage); font-weight: 600; opacity: 1; }
+
+.cal-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 14px; font-size: 0.72rem; color: var(--ink-soft); }
+.cal-legend li { display: flex; align-items: center; gap: 6px; }
+.dot { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.dot-ok { background: var(--sage-soft); border: 1px solid var(--sage); }
+.dot-holiday { background: var(--holiday); opacity: 0.8; }
+.dot-off { background: var(--ink-faint); opacity: 0.55; }
+.cal-note { margin-top: 10px; font-size: 0.74rem; color: var(--danger); }
+
+/* ---------- consent + submit ---------- */
+.reserve-submit { margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.consent { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.9rem; color: var(--ink-soft); max-width: 560px; }
+.consent input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--sage); cursor: pointer; flex: none; }
+.reserve-submit .btn-reserve { border: 0; font: inherit; font-weight: 500; cursor: pointer; }
+.btn-reserve:disabled { background: var(--line); color: var(--ink-faint); cursor: not-allowed; transform: none; }
+.submit-hint { font-size: 0.76rem; color: var(--ink-faint); text-align: center; }
+
+/* ---------- confirm dialog ---------- */
+.confirm {
+  width: min(520px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  margin: auto; padding: 0;
+  border: 1px solid var(--line); border-radius: 12px;
+  background: var(--bg); color: var(--ink);
+  box-shadow: 0 24px 60px rgba(26, 26, 23, 0.18);
+}
+.confirm::backdrop { background: rgba(26, 26, 23, 0.45); }
+.confirm-review, .confirm-done { padding: 30px 30px 26px; }
+.confirm h2 { font-family: var(--font-serif); font-weight: 500; font-size: 1.4rem; margin-bottom: 20px; }
+.confirm-done p { color: var(--ink-soft); }
+.confirm-list { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+.confirm-list > div { display: grid; grid-template-columns: 82px minmax(0, 1fr); gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.confirm-list dt { font-size: 0.8rem; color: var(--ink-faint); padding-top: 2px; }
+.confirm-list dd { font-size: 0.95rem; overflow-wrap: anywhere; }
+.c-purpose { white-space: pre-wrap; max-height: 180px; overflow-y: auto; }
+.confirm-error { margin-top: 14px; font-size: 0.84rem; color: var(--danger); }
+.confirm-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+.btn-small { padding: 12px 30px; font-size: 0.92rem; }
+.btn-ghost { padding: 12px 24px; font-size: 0.92rem; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-soft); transition: border-color 0.2s, color 0.2s; }
+.btn-ghost:hover { border-color: var(--ink); color: var(--ink); }
+.confirm-actions button:disabled { opacity: 0.6; cursor: wait; }
+
+@media (max-width: 820px) {
+  .reserve-grid { grid-template-columns: 1fr; gap: 28px; }
+  .purpose-box { min-height: 180px; }
+  .reserve-submit .btn-reserve { width: 100%; max-width: 420px; }
+  .confirm-review, .confirm-done { padding: 24px 20px 20px; }
+  .confirm-actions { flex-direction: column-reverse; }
+  .confirm-actions button { width: 100%; }
+}
