@@ -8,41 +8,77 @@
 .rsv-auth p { color: var(--ink-soft); font-size: 0.9rem; }
 .rsv-login-link { display: inline-block; margin-top: 26px; padding: 12px 28px; border-radius: 999px; }
 
-.rsv-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
-.rsv-tab {
+.rsv-panel { max-width: 1060px; }
+
+/* ---------- summary + filters ---------- */
+.rsv-summary {
+  display: flex; flex-wrap: wrap; gap: 6px 10px;
+  margin-bottom: 18px; padding: 14px 18px;
+  font-size: 0.95rem; color: var(--ink-soft);
+  background: var(--bg-soft); border: 1px solid var(--line); border-radius: 10px;
+}
+.rsv-summary strong { color: var(--ink); font-weight: 600; }
+.rsv-summary .sep { color: var(--line); }
+
+.rsv-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.rsv-filter {
   padding: 8px 16px; font-size: 0.84rem; color: var(--ink-soft);
   border: 1px solid var(--line); border-radius: 999px;
   transition: border-color 0.2s, color 0.2s, background 0.2s;
 }
-.rsv-tab b { margin-left: 6px; font-weight: 600; color: var(--ink-faint); }
-.rsv-tab:hover { border-color: var(--ink-faint); color: var(--ink); }
-.rsv-tab.active { background: var(--sage-soft); border-color: var(--sage); color: var(--sage); }
-.rsv-tab.active b { color: var(--sage); }
+.rsv-filter b { margin-left: 6px; font-weight: 600; color: var(--ink-faint); }
+.rsv-filter:hover { border-color: var(--ink-faint); color: var(--ink); }
+.rsv-filter.active { background: var(--sage-soft); border-color: var(--sage); color: var(--sage); }
+.rsv-filter.active b { color: var(--sage); }
 
-.rsv-list { display: flex; flex-direction: column; gap: 12px; }
-.rsv-card {
-  display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; gap: 22px;
-  padding: 20px 22px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg);
+.rsv-showing { margin: 14px 2px 10px; font-size: 0.8rem; color: var(--ink-faint); min-height: 1.2em; }
+
+/* ---------- table ---------- */
+.rsv-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+.rsv-table { width: 100%; min-width: 860px; border-collapse: collapse; font-size: 0.86rem; }
+.rsv-table th {
+  padding: 12px 14px; text-align: left; white-space: nowrap;
+  font-size: 0.74rem; font-weight: 600; letter-spacing: 0.04em; color: var(--ink-faint);
+  background: var(--bg-soft); border-bottom: 1px solid var(--line);
 }
-.rsv-when strong { display: block; font-family: var(--font-serif); font-weight: 500; font-size: 1.1rem; line-height: 1.3; }
-.rsv-when span { display: block; margin-top: 4px; font-size: 0.95rem; color: var(--sage); font-weight: 500; }
-.rsv-who { min-width: 0; }
-.rsv-name { font-size: 1rem; font-weight: 600; }
-.rsv-email { display: inline-block; margin-top: 2px; font-size: 0.84rem; color: var(--ink-soft); border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.rsv-table td { padding: 14px; vertical-align: top; border-bottom: 1px solid var(--line); }
+.rsv-table tbody tr:last-child td { border-bottom: 0; }
+.rsv-table tbody tr:hover { background: rgba(246, 245, 240, 0.5); }
+.rsv-table tr.is-past td:not(.rsv-status-cell) { opacity: 0.6; }
+
+.rsv-when { white-space: nowrap; }
+.rsv-when strong { display: block; font-weight: 600; }
+.rsv-when span { color: var(--sage); font-weight: 500; }
+.rsv-past-tag { margin-left: 6px; padding: 1px 7px; font-size: 0.68rem; color: var(--ink-faint); border: 1px solid var(--line); border-radius: 999px; }
+.rsv-name { font-weight: 600; white-space: nowrap; }
+.rsv-email { color: var(--ink-soft); border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
 .rsv-email:hover { color: var(--sage); border-color: var(--sage); }
+.rsv-purpose-cell { min-width: 220px; max-width: 340px; }
 .rsv-purpose {
-  margin-top: 12px; font-size: 0.88rem; color: var(--ink-soft); line-height: 1.7;
-  white-space: pre-wrap; overflow-wrap: anywhere;
+  color: var(--ink-soft); line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere;
   display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden;
 }
 .rsv-purpose.open { display: block; -webkit-line-clamp: unset; }
-.rsv-more { margin-top: 6px; font-size: 0.78rem; color: var(--sage); border-bottom: 1px solid var(--sage); }
-.rsv-side { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
-.rsv-received { font-size: 0.74rem; color: var(--ink-faint); white-space: nowrap; }
-.admin-status-badge.pending { background: #fbf3e2; color: #8a6414; }
-.admin-status-badge.past { background: var(--bg-soft); color: var(--ink-faint); border: 1px solid var(--line); }
+.rsv-more { margin-top: 4px; font-size: 0.76rem; color: var(--sage); border-bottom: 1px solid var(--sage); }
+.rsv-received { font-size: 0.78rem; color: var(--ink-faint); white-space: nowrap; }
+
+.rsv-empty { padding: 56px 14px !important; text-align: center; color: var(--ink-faint); }
+
+/* ---------- status select (colored like a badge) ---------- */
+.rsv-status-cell { white-space: nowrap; }
+.rsv-status {
+  appearance: none; cursor: pointer;
+  padding: 6px 28px 6px 12px; font: inherit; font-size: 0.8rem; font-weight: 600;
+  border: 1px solid var(--line); border-radius: 999px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%2363625a' stroke-width='1.4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 11px center;
+}
+.rsv-status:focus-visible { outline: 2px solid var(--sage); outline-offset: 2px; }
+.rsv-status:disabled { opacity: 0.55; cursor: wait; }
+.rsv-status.s-pending { background-color: #fbf3e2; color: #8a6414; border-color: #efdcae; }
+.rsv-status.s-confirmed { background-color: var(--sage-soft); color: var(--sage); border-color: #c9d8c9; }
+.rsv-status.s-cancelled { background-color: var(--bg-soft); color: var(--ink-faint); }
 
 @media (max-width: 720px) {
-  .rsv-card { grid-template-columns: 1fr; gap: 12px; }
-  .rsv-side { flex-direction: row; justify-content: space-between; align-items: center; text-align: left; }
+  .rsv-summary { font-size: 0.88rem; }
 }

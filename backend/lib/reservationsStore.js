@@ -10,6 +10,7 @@ const { put, list, get } = require('@vercel/blob');
 const crypto = require('crypto');
 
 const PREFIX = 'reservations/';
+const STATUSES = ['pending', 'confirmed', 'cancelled'];
 const EMAIL_RE = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
 const TIME_SLOTS = [];
 for (let h = 13; h <= 18; h++) {
@@ -85,4 +86,36 @@ async function listReservations() {
     .sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
 }
 
-module.exports = { saveReservation, listReservations, validateReservation, TIME_SLOTS };
+async function updateReservationStatus(id, status) {
+  if (!/^[0-9a-f-]{36}$/i.test(String(id))) {
+    const err = new Error('예약을 찾을 수 없습니다.');
+    err.statusCode = 404;
+    throw err;
+  }
+  if (!STATUSES.includes(status)) throw validationError('상태 값이 올바르지 않습니다.');
+
+  const pathname = `${PREFIX}${id}.json`;
+  let result = null;
+  try {
+    result = await get(pathname, { access: 'private', useCache: false });
+  } catch (e) {
+    result = null;
+  }
+  if (!result || !result.stream) {
+    const err = new Error('예약을 찾을 수 없습니다.');
+    err.statusCode = 404;
+    throw err;
+  }
+
+  const current = JSON.parse(await new Response(result.stream).text());
+  const updated = { ...current, status, updatedAt: new Date().toISOString() };
+  await put(pathname, JSON.stringify(updated), {
+    access: 'private',
+    addRandomSuffix: false,
+    allowOverwrite: true,
+    contentType: 'application/json'
+  });
+  return updated;
+}
+
+module.exports = { saveReservation, listReservations, updateReservationStatus, validateReservation, TIME_SLOTS, STATUSES };

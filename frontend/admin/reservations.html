@@ -34,7 +34,7 @@
     <a href="./" class="pbtn-fill rsv-login-link">로그인하러 가기</a>
   </section>
 
-  <section id="rsv-view" class="admin-panel" hidden>
+  <section id="rsv-view" class="admin-panel rsv-panel" hidden>
     <div class="admin-panel-head">
       <div>
         <span class="kicker">Reservations</span>
@@ -43,16 +43,37 @@
       <button id="refresh-btn" class="admin-ghost-btn"><i class="fa-solid fa-rotate"></i> 새로고침</button>
     </div>
 
-    <div class="rsv-tabs" role="tablist" aria-label="예약 보기 방식">
-      <button class="rsv-tab active" role="tab" aria-selected="true" data-filter="upcoming">예정 <b id="count-upcoming">0</b></button>
-      <button class="rsv-tab" role="tab" aria-selected="false" data-filter="past">지난 예약 <b id="count-past">0</b></button>
-      <button class="rsv-tab" role="tab" aria-selected="false" data-filter="all">전체 (접수순) <b id="count-all">0</b></button>
+    <p class="rsv-summary" id="rsv-summary" aria-live="polite"></p>
+
+    <div class="rsv-filters" role="group" aria-label="처리 상태 필터">
+      <button type="button" class="rsv-filter active" aria-pressed="true" data-status="all">전체 <b id="count-all">0</b></button>
+      <button type="button" class="rsv-filter" aria-pressed="false" data-status="pending">접수 <b id="count-pending">0</b></button>
+      <button type="button" class="rsv-filter" aria-pressed="false" data-status="confirmed">확정 <b id="count-confirmed">0</b></button>
+      <button type="button" class="rsv-filter" aria-pressed="false" data-status="cancelled">취소 <b id="count-cancelled">0</b></button>
     </div>
 
-    <div id="rsv-list" class="rsv-list">
-      <p class="admin-empty">불러오는 중…</p>
+    <p class="rsv-showing" id="rsv-showing"></p>
+
+    <div class="rsv-table-wrap">
+      <table class="rsv-table">
+        <thead>
+          <tr>
+            <th scope="col">방문 일시</th>
+            <th scope="col">이름</th>
+            <th scope="col">이메일</th>
+            <th scope="col">방문 목적</th>
+            <th scope="col">접수 시각</th>
+            <th scope="col">처리 상태</th>
+          </tr>
+        </thead>
+        <tbody id="rsv-body">
+          <tr><td colspan="6" class="rsv-empty">불러오는 중…</td></tr>
+        </tbody>
+      </table>
     </div>
   </section>
+
+  <div class="wtoast" id="rsv-toast"></div>
 
   <script src="reservations.js"></script>
 </body>
