@@ -5,6 +5,8 @@
   var MAX_DAYS_AHEAD = 180;
   var EMAIL_RE = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/;
   var HOLIDAY_API = 'https://date.nager.at/api/v3/PublicHolidays/';
+  var FORMSPREE_URL = 'https://formspree.io/f/xrpebbql';
+  var DEFAULT_ERROR = '예약을 전송하지 못했습니다. 잠시 후 다시 시도해 주세요.';
 
   // Used only when the holiday API can't be reached.
   var FALLBACK_HOLIDAYS = {
@@ -279,38 +281,70 @@
     el.cSend.textContent = '전송 중…';
     el.cError.hidden = true;
 
-    fetch('/api/reservations', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        date: state.date,
-        time: el.time.value,
-        name: el.name.value.trim(),
-        email: el.email.value.trim(),
-        purpose: el.purpose.value.trim(),
-        consent: el.consent.checked,
-        website: el.website.value
-      })
-    })
-      .then(function (res) {
-        return res.json().catch(function () { return {}; }).then(function (body) {
-          if (!res.ok) throw new Error(body.error || '예약을 저장하지 못했습니다. 잠시 후 다시 시도해 주세요.');
-          return body;
-        });
-      })
-      .then(function () {
+    var reservation = {
+      date: state.date,
+      time: el.time.value,
+      name: el.name.value.trim(),
+      email: el.email.value.trim(),
+      purpose: el.purpose.value.trim(),
+      consent: el.consent.checked,
+      website: el.website.value
+    };
+
+    // Saved to the private store AND mailed via Formspree; either one succeeding counts as received.
+    Promise.allSettled([saveReservation(reservation), mailReservation(reservation)])
+      .then(function (results) {
+        if (results.every(function (r) { return r.status === 'rejected'; })) {
+          var apiErr = results[0].reason;
+          throw new Error(apiErr && apiErr.userMessage || DEFAULT_ERROR);
+        }
         reservationDone = true;
         el.review.hidden = true;
         el.done.hidden = false;
       })
       .catch(function (err) {
-        el.cError.textContent = err.message || '예약을 저장하지 못했습니다. 잠시 후 다시 시도해 주세요.';
+        el.cError.textContent = err.message || DEFAULT_ERROR;
         el.cError.hidden = false;
         el.cSend.disabled = false;
         el.cEdit.disabled = false;
         el.cSend.textContent = '다시 시도';
       });
   });
+
+  function saveReservation(data) {
+    return fetch('/api/reservations', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (body) {
+        if (!res.ok) {
+          var err = new Error('save failed: HTTP ' + res.status);
+          err.userMessage = body.error;
+          throw err;
+        }
+        return body;
+      });
+    });
+  }
+
+  function mailReservation(data) {
+    return fetch(FORMSPREE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: '[방문 예약] ' + data.name + ' · ' + el.dateBox.textContent + ' ' + data.time,
+        email: data.email,
+        '이름': data.name,
+        '방문 날짜': el.dateBox.textContent,
+        '희망 시간': data.time,
+        '방문 목적': data.purpose,
+        _gotcha: data.website
+      })
+    }).then(function (res) {
+      if (!res.ok) throw new Error('formspree failed: HTTP ' + res.status);
+    });
+  }
 
   function resetForm() {
     el.form.reset();
