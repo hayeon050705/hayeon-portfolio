@@ -134,7 +134,8 @@
       })
       .then(function (updated) {
         rec.status = updated.status;
-        toast(rec.name + ' 님 예약을 "' + STATUS_LABEL[updated.status] + '"(으)로 변경했습니다.');
+        toast(rec.name + ' 님 예약을 "' + STATUS_LABEL[updated.status] + '"(으)로 변경했습니다.' +
+          (updated.status === 'cancelled' ? ' 해당 시간은 다시 예약할 수 있습니다.' : ''));
         render();
       })
       .catch(function (err) {

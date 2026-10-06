@@ -42,7 +42,7 @@
   var el = {
     form: $('reserve-form'), grid: $('cal-grid'), title: $('cal-title'),
     prev: $('cal-prev'), next: $('cal-next'), note: $('cal-note'),
-    dateBox: $('date-box'), time: $('time-select'),
+    dateBox: $('date-box'), time: $('time-select'), timeNote: $('time-note'),
     name: $('f-name'), email: $('f-email'), purpose: $('f-purpose'), website: $('f-website'),
     count: $('purpose-count'), consent: $('f-consent'), submit: $('btn-submit'),
     dialog: $('confirm-dialog'), review: $('confirm-review'), done: $('confirm-done'),
@@ -55,19 +55,66 @@
   var holidayCache = {};
   var reservationDone = false;
 
-  /* ---------- time options: 13:00 ~ 18:00, 30 min ---------- */
-  (function buildTimes() {
-    for (var h = 13; h <= 18; h++) {
-      [0, 30].forEach(function (m) {
-        if (h === 18 && m === 30) return;
-        var label = pad(h) + ':' + pad(m);
-        var opt = document.createElement('option');
-        opt.value = label;
-        opt.textContent = label;
-        el.time.appendChild(opt);
-      });
-    }
-  })();
+  /* ---------- time slots: 13:00 ~ 18:00, 30 min ---------- */
+  var TIME_SLOTS = [];
+  for (var hh = 13; hh <= 18; hh++) {
+    [0, 30].forEach(function (mm) {
+      if (hh === 18 && mm === 30) return;
+      TIME_SLOTS.push(pad(hh) + ':' + pad(mm));
+    });
+  }
+
+  var booked = {};
+  var availabilityOk = true;
+
+  function bookedTimes(dateKey) { return booked[dateKey] || []; }
+  function isFull(dateKey) { return bookedTimes(dateKey).length >= TIME_SLOTS.length; }
+
+  function loadAvailability(y, m) {
+    var from = ymd(y, m, 1);
+    var to = ymd(y, m, new Date(y, m + 1, 0).getDate());
+    return fetch('/api/availability?from=' + from + '&to=' + to, { cache: 'no-store' })
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        Object.keys(booked).forEach(function (k) { if (k >= from && k <= to) delete booked[k]; });
+        Object.keys(data.booked || {}).forEach(function (k) { booked[k] = data.booked[k]; });
+        availabilityOk = true;
+      })
+      .catch(function () { availabilityOk = false; });
+  }
+
+  function renderTimeOptions() {
+    var taken = state.date ? bookedTimes(state.date) : [];
+    var current = el.time.value;
+    el.time.innerHTML = '<option value="">시간을 선택하세요</option>';
+    TIME_SLOTS.forEach(function (t) {
+      var isTaken = taken.indexOf(t) !== -1;
+      var opt = document.createElement('option');
+      opt.value = t;
+      opt.textContent = isTaken ? t + ' · 완료' : t;
+      opt.disabled = isTaken;
+      el.time.appendChild(opt);
+    });
+    el.time.value = current && taken.indexOf(current) === -1 ? current : '';
+
+    var note = '';
+    if (!availabilityOk) note = '예약 현황을 불러오지 못했습니다. 이미 예약된 시간은 접수할 때 안내됩니다.';
+    else if (state.date && isFull(state.date)) note = '이 날짜는 예약이 모두 마감되었습니다.';
+    else if (taken.length) note = '"완료"로 표시된 시간은 이미 예약되어 선택할 수 없습니다.';
+    el.timeNote.textContent = note;
+    el.timeNote.hidden = !note;
+    updateState();
+  }
+
+  function clearDate() {
+    state.date = '';
+    el.dateBox.textContent = '캘린더에서 날짜를 선택하세요';
+    el.dateBox.classList.add('is-empty');
+    renderTimeOptions();
+  }
 
   /* ---------- holidays ---------- */
   function loadHolidays(year) {
@@ -104,9 +151,12 @@
     el.next.disabled = (y === maxDate.getFullYear() && m >= maxDate.getMonth());
     el.grid.innerHTML = '<p class="cal-loading">캘린더를 불러오는 중…</p>';
 
-    loadHolidays(y).then(function (h) {
+    Promise.all([loadHolidays(y), loadAvailability(y, m)]).then(function (res) {
       if (token !== renderToken) return;
+      var h = res[0];
       el.note.hidden = h.ok;
+      if (state.date && isFull(state.date)) clearDate();
+      else if (state.date) renderTimeOptions();
       drawGrid(y, m, h.map);
     });
   }
@@ -128,7 +178,8 @@
       var holiday = holidays[key];
       var weekend = dow === 0 || dow === 6;
       var outOfRange = key < minKey || key > maxKey;
-      var selectable = !weekend && !holiday && !outOfRange;
+      var full = isFull(key);
+      var selectable = !weekend && !holiday && !outOfRange && !full;
 
       var btn = document.createElement('button');
       btn.type = 'button';
@@ -150,6 +201,10 @@
           btn.classList.add('is-holiday');
           btn.title = holiday;
           btn.setAttribute('aria-label', label + ', ' + holiday + ' 공휴일, 선택 불가');
+        } else if (full && !weekend && !outOfRange) {
+          btn.classList.add('is-full');
+          btn.title = '예약 마감';
+          btn.setAttribute('aria-label', label + ', 예약 마감, 선택 불가');
         } else {
           btn.classList.add('is-off');
           btn.setAttribute('aria-label', label + ', 선택 불가');
@@ -180,7 +235,14 @@
       b.classList.toggle('is-selected', on);
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
-    updateState();
+    renderTimeOptions();
+
+    // Re-check right now so a slot taken moments ago shows as "완료".
+    loadAvailability(+parts[0], +parts[1] - 1).then(function () {
+      if (state.date !== key) return;
+      if (isFull(key)) { clearDate(); renderCalendar(); return; }
+      renderTimeOptions();
+    });
   }
 
   el.prev.addEventListener('click', function () {
@@ -255,6 +317,7 @@
     el.cError.hidden = true;
     el.review.hidden = false;
     el.done.hidden = true;
+    el.cSend.hidden = false;
     el.cSend.disabled = false;
     el.cEdit.disabled = false;
     el.cSend.textContent = '예약하기';
@@ -263,7 +326,10 @@
   });
 
   el.cEdit.addEventListener('click', function () { el.dialog.close(); });
-  el.cClose.addEventListener('click', function () { el.dialog.close(); });
+  el.cClose.addEventListener('click', function () {
+    el.dialog.close();
+    if (reservationDone) resetForm();
+  });
 
   el.dialog.addEventListener('click', function (e) {
     if (e.target === el.dialog && !el.cSend.disabled) el.dialog.close();
@@ -291,23 +357,31 @@
       website: el.website.value
     };
 
-    // Saved to the private store AND mailed via Formspree; either one succeeding counts as received.
-    Promise.allSettled([saveReservation(reservation), mailReservation(reservation)])
-      .then(function (results) {
-        if (results.every(function (r) { return r.status === 'rejected'; })) {
-          var apiErr = results[0].reason;
-          throw new Error(apiErr && apiErr.userMessage || DEFAULT_ERROR);
-        }
+    // The server save is the source of truth (it reserves the slot atomically). Mail goes out only
+    // after it succeeds, so a rejected/duplicate reservation never produces a notification mail.
+    saveReservation(reservation)
+      .then(function () {
+        return mailReservation(reservation).catch(function (e) { console.warn(e.message); });
+      })
+      .then(function () {
         reservationDone = true;
         el.review.hidden = true;
         el.done.hidden = false;
       })
       .catch(function (err) {
-        el.cError.textContent = err.message || DEFAULT_ERROR;
+        el.cError.textContent = err.userMessage || DEFAULT_ERROR;
         el.cError.hidden = false;
-        el.cSend.disabled = false;
         el.cEdit.disabled = false;
-        el.cSend.textContent = '다시 시도';
+        if (err.status === 409) {
+          // Someone else just took this time: refresh availability, drop the stale choice, and send the user back to edit.
+          el.cSend.hidden = true;
+          loadAvailability(+state.date.slice(0, 4), +state.date.slice(5, 7) - 1).then(function () {
+            if (isFull(state.date)) { clearDate(); renderCalendar(); } else renderTimeOptions();
+          });
+        } else {
+          el.cSend.disabled = false;
+          el.cSend.textContent = '다시 시도';
+        }
       });
   });
 
@@ -320,6 +394,7 @@
       return res.json().catch(function () { return {}; }).then(function (body) {
         if (!res.ok) {
           var err = new Error('save failed: HTTP ' + res.status);
+          err.status = res.status;
           err.userMessage = body.error;
           throw err;
         }
@@ -347,18 +422,16 @@
   }
 
   function resetForm() {
+    reservationDone = false;
     el.form.reset();
     touched = {};
-    state.date = '';
-    el.dateBox.textContent = '캘린더에서 날짜를 선택하세요';
-    el.dateBox.classList.add('is-empty');
     el.count.textContent = '0 / 1000';
     ['name', 'email', 'purpose'].forEach(showError);
+    clearDate();
     renderCalendar();
-    updateState();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  renderTimeOptions();
   renderCalendar();
-  updateState();
 })();
