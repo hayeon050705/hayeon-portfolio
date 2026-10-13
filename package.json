@@ -4,6 +4,7 @@
   "private": true,
   "description": "Ha-yeon Jeon portfolio. Static frontend in /frontend, Vercel serverless API in /api backed by /backend/lib/store.js (file-based today, swap in a real database there later).",
   "dependencies": {
+    "@supabase/supabase-js": "^2.117.3",
     "@vercel/blob": "^2.8.0"
   }
 }
