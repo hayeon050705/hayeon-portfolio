@@ -37,23 +37,28 @@ async function main() {
   if (pub.startsWith('sb_secret_')) bad('SUPABASE_PUBLISHABLE_KEY 칸에 비밀(secret) 키가 들어갔습니다. 바로 키를 새로 만들고 값을 바꾸세요.');
   else if (!pub.startsWith('sb_publishable_') && !pub.startsWith('eyJ')) bad('SUPABASE_PUBLISHABLE_KEY 는 보통 sb_publishable_ 로 시작합니다.');
   else ok('공개 키 모양이 맞음');
+  if (/^sb_publishable_sb_publishable_/.test(pub)) bad('공개 키 앞의 sb_publishable_ 가 두 번 겹쳐 있습니다. 하나를 지우세요.');
+  if (/^sb_secret_sb_secret_/.test(sec)) bad('비밀 키 앞의 sb_secret_ 가 두 번 겹쳐 있습니다. 하나를 지우세요.');
   if (failed) return;
 
   console.log('\n2) 비밀 키로 테이블 12개에 접근 (서버용)');
   for (const t of TABLES) {
-    const { count, error } = await adminDb().from(t).select('*', { count: 'exact', head: true });
-    error ? bad(`${t}: ${error.message}`) : ok(`${t}  (${count}건)`);
+    const { count, error } = await adminDb().from(t).select('*', { count: 'exact' }).limit(1);
+    error ? bad(`${t}: ${error.message || error.code || '알 수 없는 오류'}`) : ok(`${t}  (${count}건)`);
   }
 
   console.log('\n3) 공개 키로 공개 테이블 읽기 (방문자용)');
   for (const t of ['site_profile', 'projects', 'awards']) {
-    const { error } = await publicDb().from(t).select('*', { count: 'exact', head: true });
-    error ? bad(`${t}: ${error.message}`) : ok(`${t} 읽기 가능`);
+    const { error } = await publicDb().from(t).select('*').limit(1);
+    error ? bad(`${t}: ${error.message || error.code || '알 수 없는 오류'}`) : ok(`${t} 읽기 가능`);
   }
 
   console.log('\n4) 공개 키로 예약 테이블은 막혀 있어야 함 (개인정보 보호)');
-  const { error: rErr } = await publicDb().from('reservations').select('id').limit(1);
-  rErr ? ok('reservations 접근 거부됨 (정상)') : bad('reservations 가 공개 키로 열립니다! SQL ③ 을 확인하세요.');
+  const { data: rData, error: rErr } = await publicDb().from('reservations').select('id').limit(1);
+  const denied = rErr && (rErr.code === '42501' || /permission denied/i.test(rErr.message || ''));
+  if (denied) ok('reservations 접근 거부됨 (정상)');
+  else if (rErr) bad('reservations 오류가 났지만 "접근 거부"가 아닙니다: ' + (rErr.message || rErr.code));
+  else bad(`reservations 가 공개 키로 열립니다! (${(rData || []).length}행 읽힘) SQL ③ 을 확인하세요.`);
 
   console.log('\n5) 예약된 시간 조회 함수 (개인정보 없음)');
   const { error: fErr } = await publicDb().rpc('booked_slots', { from_date: '2026-01-01', to_date: '2026-12-31' });
